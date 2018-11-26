@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://untitled-life.github.io/sitemap.xml 
