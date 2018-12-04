@@ -4,7 +4,7 @@
   <title><![CDATA[Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2018-12-04T14:08:45+08:00</updated>
+  <updated>2018-12-04T14:20:55+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -14,11 +14,57 @@
 
   
   <entry>
+    <title type="html"><![CDATA[How to Write a Resume]]></title>
+    <link href="http://untitled-life.github.io/blog/2018/12/04/how-to-write-a-resume/"/>
+    <updated>2018-12-04T14:10:59+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2018/12/04/how-to-write-a-resume</id>
+    <content type="html"><![CDATA[<blockquote><p>我慢慢地、慢慢地了解到，所谓父女母子一场，只不过意味着，你和他的缘分就是今生今世不断地在目送他的背影渐行渐远。你站在小路的这一端，看着他逐渐消失在小路转弯的地方，而且，他用背影告诉你：不必追。 &ndash;龙应台 《目送》</p>
+
+<h2>一份规范的简历，要注意这些点</h2>
+
+<ol>
+<li>言简意赅，真实自我。包括个人信息（姓名 / 性别 / 年龄 / 手机号码 / 邮箱 / 居住城市足矣）、工作经历（公司 / 时间段 / 职位 / 做了什么 / 取得了什么成绩）、教育背景（学校 / 专业 / 时间段 / 学历）三大部分。</li>
+<li>关于「做了什么」，应该具体到「你」做了什么，而不是你从事工种的工作内容。比如，你是一个产品经理，你可以写你负责设计了 XX 小程序的核心用户流程，把用户量从 X 增长到 Y。但是不要写你的工作内容是前期市场调研、需求文档撰写、项目管理、跨部门沟通等通用性的内容。「把简历写成 JD」是很多人常犯的错误。</li>
+<li>关于「取得了什么成绩」，如果是可量化的结果，尽量用数据表达。若担心泄露公司机密，可以用同比、环比增长百分比进行体现，既显专业又避免泄密。</li>
+<li>你无法确定对方公司的面试官和 HR 用的什么操作系统，是在电脑上还是在外面用手机，因此发送.pdf 格式总是比较保险的（避免出现排版的问题）。</li>
+<li>尽量写公司的产品（品牌）名称，不用写工商登记的公司全称，简单明了。比如大部分人知道「美团」，但不知道「北京三快科技有限公司」是哪家公司。</li>
+<li>如果你就职的公司不是太有名，可以在简历中提供官方网址，不要让简历阅读者去猜，或者花费时间去搜索。换位思考总是可以带来「用户体验」的提升。</li>
+<li>设计师除了简历，要同时准备好自己的作品集，同样要使用 pdf 格式（不要用 png 等图片格式）。如果作品集文件太大，可以提供百度网盘的链接及密码。</li>
+<li>如果你是经验不太丰富的产品经理，还没有耳熟能详的产品来证明你的能力，也可提供一些附属链接或资料，体现你的产品设计能力。</li>
+</ol>
+</blockquote>
+
+<h2>简历尽量不要怎么写</h2>
+
+<ol>
+<li>不要套用任何市面上的简历模板。写简历是一个 review 自我的好机会，打开一个空白的 word，放空自我，从头开始书写。内容比格式重要，不必拘泥于「格式」。也不要用拉勾、猎聘等网站下载下来的简历投递给不同的公司，没有公司喜欢收到这样的简历，就像没有人喜欢当别人的备胎。</li>
+<li>不要用「萌萌哒」网络用语、花花绿绿的颜色，以及一些奇奇怪怪的字体与图画。在字体、字号的选择上，宁可保守，尽量体现成熟又靠谱的一面。</li>
+<li>不要在简历上写「本人吃苦耐劳，有责任心，学习能力特别强，分析能力突出，有创新意识」等虚无、没有办法立即证明的内容。你是不是具备这些能力，是通过你过往的工作内容和成绩来证明的，不是靠嘴炮。千万不要幻想简历上写得十全十美，就能增加面试的成功率。</li>
+<li>不要有错别字。自己的简历，多看两三遍这个要求不过分吧？</li>
+<li>不要将文件命名为「简历.pdf」，应便于对方搜索。</li>
+<li>不要使用 .pages 或者图片格式的简历，在不同设备上阅读及其不便。</li>
+<li>不管你的工作经历多么丰富，简历都一定不要超过 2 页。并不是说工作 10 年了，简历就要写五六页。要知道，很多 HR 在一份简历上的注意力不会超过 30 秒。</li>
+<li>不要将工作经历、项目经历分开写，那需要面试官跳动着对比阅读，很费劲。</li>
+<li>不要把学校时获得的那些没有份量的奖项都放上去 —— 如果你工作超过 1 年了。只有应届生实在没什么东西可写时又担心简历不足一页时，才会这样做。</li>
+<li>如果曾经参加过一些职业培训，最好提前打听下这个培训机构在行业内的名声及被认可的程度。名声不好且培训后获得的证书含金量不高的，就不要写在简历上了，会成为一个减分项。</li>
+<li>不管你长得有多帅 / 多漂亮，面试与相貌无关的岗位，都不建议放照片。</li>
+<li>不要一段话内字号不一样大，或是字体不一致，像是从别的地方 copy 过来的。<p class='post-footer'>
+        显示信息
+        <a href='http://untitled-life.github.io/blog/2018/12/04/how-to-write-a-resume/'><a href="http://untitled-life.github.io/blog/2018/12/04/how-to-write-a-resume/">http://untitled-life.github.io/blog/2018/12/04/how-to-write-a-resume/</a></a><br/>
+        written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+        &nbsp;posted at <a href='http://untitled-life.github.io'><a href="http://untitled-life.github.io">http://untitled-life.github.io</a></a>
+        </p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Spring Boot Return Data With JSON Format]]></title>
     <link href="http://untitled-life.github.io/blog/2018/12/04/spring-boot-return-data-with-json-format/"/>
     <updated>2018-12-04T14:04:56+08:00</updated>
     <id>http://untitled-life.github.io/blog/2018/12/04/spring-boot-return-data-with-json-format</id>
-    <content type="html"><![CDATA[<p>时间是一只藏在黑暗中的温柔的手，在你一出神一恍惚之间，物走星移。 &ndash;龙应台 《目送》</p>
+    <content type="html"><![CDATA[<blockquote><p>时间是一只藏在黑暗中的温柔的手，在你一出神一恍惚之间，物走星移。 &ndash;龙应台 《目送》</p></blockquote>
 
 <!-- more -->
 
