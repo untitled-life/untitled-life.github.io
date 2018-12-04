@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Springboot | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/springboot/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2018-12-04T14:08:45+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Boot Return Data With JSON Format]]></title>
+    <link href="http://untitled-life.github.io/blog/2018/12/04/spring-boot-return-data-with-json-format/"/>
+    <updated>2018-12-04T14:04:56+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2018/12/04/spring-boot-return-data-with-json-format</id>
+    <content type="html"><![CDATA[<p>时间是一只藏在黑暗中的温柔的手，在你一出神一恍惚之间，物走星移。 &ndash;龙应台 《目送》</p>
+
+<!-- more -->
+
+
+<h2>方案一(全局配置)</h2>
+
+<p>在application.properties文件加入如下配置
+<code>properties
+spring.jackson.date-format=yyyy-MM-dd HH:mm
+spring.jackson.time-zone=GMT+8
+</code>
+在pom中添加如下依赖
+<code>xml
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-rest&lt;/artifactId&gt;
+    &lt;version&gt;{version}&lt;/version&gt;
+&lt;/dependency&gt;
+</code></p>
+
+<h2>方案二(局部注解配置)</h2>
+
+<pre><code class="java">// 返回格式化的字符串
+@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+// 接收格式化的字符串，转为Date类型对象
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+</code></pre>
+
+<p>在pom中添加如下依赖
+<code>xml
+&lt;dependency&gt;
+    &lt;groupId&gt;com.fasterxml.jackson.datatype&lt;/groupId&gt;
+    &lt;artifactId&gt;jackson-datatype-joda&lt;/artifactId&gt;
+    &lt;version&gt;{version}&lt;/version&gt;
+&lt;/dependency&gt;
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

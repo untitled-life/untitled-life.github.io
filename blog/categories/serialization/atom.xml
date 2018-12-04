@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Serialization, | Hackx's Blog]]></title>
+  <title><![CDATA[Category: Serialization | Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/blog/categories/serialization/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2018-11-30T23:02:34+08:00</updated>
+  <updated>2018-12-04T14:08:45+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
