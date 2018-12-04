@@ -3,7 +3,7 @@ layout: post
 title: "Data Serialization and Evolution"
 date: 2018-11-29 11:35:43 +0800
 comments: true
-categories: Serialization, Avro
+categories: Serialization Avro
 ---
 When sending data over the network or storing it in a file, we need a way to encode the data into bytes. The area of data serialization has a long history, but has evolved quite a bit over the last few years. People started with programming language specific serialization such as Java serialization, which makes consuming the data in other languages inconvenient. People then moved to language agnostic formats such as JSON.
 <!-- more -->
