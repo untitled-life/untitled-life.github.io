@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Spark | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/spark/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2018-12-27T18:01:29+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Wide vs Narrow Dependencies]]></title>
+    <link href="http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies/"/>
+    <updated>2018-12-27T17:41:52+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies</id>
+    <content type="html"><![CDATA[<p>太疼的伤口，你不敢去触碰；太深的忧伤，你不敢去安慰；太残酷的残酷，有时候，你不敢去注视。 &ndash;龙应台 《目送》</p>
+
+<!-- more -->
+
+
+<p>In this session, we are going to focus on wide versus narrow dependencies, which dictate relationships between RDDs in graphs of computation, which we&rsquo;ll see has a lot to do with shuffling.</p>
+
+<p>So far, we have seen that some transformations significantly more expensive (latency) than others.</p>
+
+<p>In this session we will:</p>
+
+<ul>
+<li>look at how RDD&rsquo;s are represented</li>
+<li>dive into how and when Spark decides it must shuffle data</li>
+<li>see how these dependencies make fault tolerance possible</li>
+</ul>
+
+
+<h2>Lineages</h2>
+
+<p>Computations on RDDs are represented as a lineage graph, a DAG representing the computations done on the RDD. This representation/DAG is what Spark analyzes to do optimizations. Because of this, for a particular operation, it is possible to step back and figure out how a result of a computation is derived from a particular point.
+<code>scala
+val rdd = sc.textFile(...)
+val filtered = rdd.map(...).filter(...).persist()
+val count = filtered.count()
+val reduced = filtered.reduce()
+</code>
+<img src="/images/post/lineage_graph.png" alt="lineage_graph" /></p>
+
+<h2>How RDDs are represented</h2>
+
+<p>RDDs are made up of 4 parts:</p>
+
+<ul>
+<li>Partitions: Atomic pieces of the dataset. One or many per compute node.</li>
+<li>Dependencies: Models relationship between this RDD and its partitions with the RDD(s) it was derived from. (Note that the dependencies maybe modeled per partition as shown below).</li>
+<li>A function for computing the dataset based on its parent RDDs.</li>
+<li>Metadata about it partitioning scheme and data placement.</li>
+</ul>
+
+
+<p>/Users/caolei/IdeaProjects/untitled-life/source/images/post/.png</p>
+
+<p><img src="/images/post/rdd_anatomy_1.png" alt="rdd_anatomy_1" /></p>
+
+<p><img src="/images/post/rdd_anatomy_2.png" alt="rdd_anatomy_2" /></p>
+
+<h2>RDD Dependencies and Shuffles</h2>
+
+<p>Previously we saw the Rule of thumb: a shuffle can occur when the resulting RDD depends on other elements from the same RDD or another RDD.</p>
+
+<p><strong>In fact, RDD dependencies encode when data must move across network</strong>. Thus they tell us when data is going to be shuffled.</p>
+
+<p>Transformations cause shuffles, and can have 2 kinds of dependencies:
+1. Narrow dependencies: Each partition of the parent RDD is used by at most one partition of the child RDD.
+<code>text
+[parent RDD partition] ---&gt; [child RDD partition]
+</code>
+<strong>Fast</strong>! No shuffle necessary. Optimizations like pipelining possible. Thus transformations which have narrow dependencies are fast.</p>
+
+<ol>
+<li>Wide dependencies: Each partition of the parent RDD may be used by multiple child partitions
+<code>text
+                    ---&gt; [child RDD partition 1]
+[parent RDD partition] ---&gt; [child RDD partition 2]
+                    ---&gt; [child RDD partition 3]
+</code>
+<strong>Slow</strong>! Shuffle necessary for all or some data over the network. Thus transformations which have narrow dependencies are slow.
+
+<h3>Visual: Narrow dependencies Vs. Wide dependencies</h3></li>
+</ol>
+
+
+<p><img src="/images/post/narrow_vs_wide_dependencies.png" alt="narrow_vs_wide_dependencies" /></p>
+
+<h3>Visual: Example</h3>
+
+<p>Assume that we have a following DAG:</p>
+
+<p><img src="/images/post/visual_dag.png" alt="visual_dag" /></p>
+
+<p>What do the dependencies look like? Which are wide and which are narrow?</p>
+
+<p><img src="/images/post/visual_dag_resolved.png" alt="visual_dag_resolved" /></p>
+
+<p>The B to G join is narrow because groupByKey already partitions the keys and places them appropriately in B after shuffling.</p>
+
+<p>Thus operations like join can <strong>sometimes be narrow and sometimes be wide.</strong></p>
+
+<p><strong>Transformations with (usually) Narrow dependencies:</strong>
+- map
+- mapValues
+- flatMap
+- filter
+- mapPartitions
+- mapPartitionsWithIndex</p>
+
+<p><strong>Transformations with (usually) Wide dependencies: (might cause a shuffle)</strong>
+- cogroup
+- groupWith
+- join
+- leftOuterJoin
+- rightOuterJoin
+- groupByKey
+- reduceByKey
+- combineByKey
+- distinct
+- intersection
+- repartition
+- coalesce</p>
+
+<p><strong>This list usually holds, but as seen above, in case of join, depending on the use case, the dependency of an operation may be different from the above lists</strong></p>
+
+<h3>How can I find out?</h3>
+
+<p>dependencies method on RDDs: returns a sequence of Dependency objects, which are actually the dependencies used by Spark&rsquo;s scheduler to know how this RDD depends on RDDs.</p>
+
+<p>The sorts of dependency objects that this method may return include:</p>
+
+<ul>
+<li><p>Narrow dependency objects</p>
+
+<ul>
+<li>OneToOneDependency</li>
+<li>PruneDependency</li>
+<li>RangeDependency</li>
+</ul>
+</li>
+<li><p>Wide dependency objects</p>
+
+<ul>
+<li>ShuffleDependency</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Another method toDebugString prints out a visualization of the RDD lineage along with other information relevant to scheduling. For example, indentations in the output separate groups of narrow transformations that may be pipelined together with wide transformations that require shuffles. These groupings are called <strong>stages.</strong></p>
+
+<h5>Example</h5>
+
+<pre><code class="scala">val wordsRDD = sc.parallelize(largeList)
+
+/* dependencies */
+
+val pairs = wordsRdd.map(c=&gt;(c,1))
+                    .groupByKey
+                    .dependencies          // &lt;-------------
+// pairs: Seq[org.apache.spark.Dependency[_]] = List(org.apache.spark.ShuffleDependency@4294a23d)
+
+/* toDebugString */
+
+val pairs = wordsRdd.map(c=&gt;(c,1))
+                    .groupByKey
+                    .toDebugString         // &lt;-------------
+// pairs: String =
+// (8) ShuffledRDD[219] at groupByKey at &lt;console&gt;:38 []
+//  +-(8) MapPartitionsRDD[218] at map at &lt;console&gt;:37 []
+//     | ParallelCollectionRDD[217] at parallelize at &lt;console&gt;:36 []
+</code></pre>
+
+<h2>Lineages and Fault Tolerance</h2>
+
+<p><strong>Lineages are the key to fault tolerance in Spark</strong></p>
+
+<p>Ideas from <strong>functional programming</strong> enable fault tolerance in Spark:</p>
+
+<ul>
+<li>RDDs are immutable</li>
+<li>We use higher-order-functions like map,flatMap,filter to do functional transformations on this immutable data</li>
+<li>A function for computing the dataset based on its parent RDDs also is part of an RDD&rsquo;s representation.</li>
+</ul>
+
+
+<p>We just need to keep the information required by these 3 properties.</p>
+
+<p>Along with keeping track of the dependency information between partitions as well, these 3 properties allow us to: <strong>Recover from failures by recomputing lost partitions from lineage graphs</strong>, as it is easy to back track in a lineage graph.</p>
+
+<p>Thus we get Fault Tolerance without having to write the RDDs/Data to the disk! The whole data can be re-derived using the above information.</p>
+
+<h3>Visual Example</h3>
+
+<p>Lets assume one of our partitions from our previous example fails:</p>
+
+<p><img src="/images/post/fault_tol_1.png" alt="fault_tol_1" /></p>
+
+<p>We only have to recompute the data shown below to get back on track:</p>
+
+<p><img src="/images/post/fault_tol_2.png" alt="fault_tol_2" /></p>
+
+<p>Recomputing missing partitions is <strong>fast for narrow</strong> but <strong>slow for wide</strong> dependencies. So if above, a partition in G would have failed, it would have taken us more time to recompute that partition. So losing partitions that were derived from a transformation with wide dependencies, can be much slower.</p>
+]]></content>
+  </entry>
+  
+</feed>
