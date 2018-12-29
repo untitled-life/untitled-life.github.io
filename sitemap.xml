@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://untitled-life.github.io/blog/2018/12/29/the-difference-of-etl-vs-elt/</loc>
+<lastmod>2018-12-29T11:04:31+08:00</lastmod>
+</url>
+<url>
 <loc>http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies/</loc>
 <lastmod>2018-12-27T17:41:52+08:00</lastmod>
 </url>
@@ -94,6 +98,12 @@
 </url>
 <url>
 <loc>http://untitled-life.github.io/blog/categories/lineages/</loc>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/categories/etl/</loc>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/categories/elt/</loc>
 </url>
 <url>
 <loc>http://untitled-life.github.io/resources/%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E4%BB%8A%E5%A4%A9%20%E6%98%8E%E5%A4%A9%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%9C%89%E6%98%A8%E5%A4%A9.pdf</loc>

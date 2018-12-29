@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Elt | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/elt/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2018-12-29T11:25:16+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Difference of ETL vs ELT]]></title>
+    <link href="http://untitled-life.github.io/blog/2018/12/29/the-difference-of-etl-vs-elt/"/>
+    <updated>2018-12-29T11:04:31+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2018/12/29/the-difference-of-etl-vs-elt</id>
+    <content type="html"><![CDATA[<p>一个人走路，才是你和风景之间的单独私会。 &ndash;龙应台 《目送》</p>
+
+<!-- more -->
+
+
+<p>For the last couple of decades ETL (extract, transform, load) has been the traditional approach for data warehousing and analytics. The ELT (extract, load, transform) approach changes the old paradigm. But, what’s actually happening when the “T” and “L” are switched?</p>
+
+<p>ETL and ELT solve the same need:</p>
+
+<blockquote><p>Billions of data and events need to be collected, processed and analyzed by businesses. The data needs to be be clean, manageable and ready to analyze. It needs to be enriched, molded and transformed. To make it meaningful.</p></blockquote>
+
+<p>But, the <strong>“how”</strong> is what’s different and leads to new possibilities in many modern data projects. There are differences in how raw data is managed, when processing is done and how analysis is performed.</p>
+
+<p>In this article, we’ll demonstrate the ETL and ELT technological differences showing data engineering and analysis examples of the two approaches and summarizing <strong>10 pros and cons of ETL and ELT.</strong></p>
+
+<p><strong>The Technological Differences: Lets first align on the 3 stages - E, T, L:</strong></p>
+
+<ul>
+<li><strong>Extraction</strong>: Retrieving raw data from an unstructured data pool and migrating it into a temporary, staging data repository</li>
+<li><strong>Transformation</strong>: Structuring, enriching and converting the raw data to match the target source</li>
+<li><strong>Loading</strong>: Loading the structured data into a data warehouse to be analyzed and used by business intelligence (BI) tools</li>
+</ul>
+
+
+<h2>ETL vs. ELT: What is ETL?</h2>
+
+<p>ETL requires management of the raw data, including the extraction of the required information and running the right transformations to ultimately serve the business needs. Each stage - extraction, transformation and loading - requires interaction by data engineers and developers, and dealing with capacity limitations of traditional data warehouses. Using ETL, analysts and other BI users have become accustomed to waiting, since simple access to the information is not available until the whole ETL process has been completed.</p>
+
+<p><img src="/images/post/ETL.jpeg" alt="ETL" /></p>
+
+<h2>What is ELT?</h2>
+
+<p>In the ELT approach, after you’ve extracted your data, you immediately start the loading phase - moving all the data sources into a single, centralized data repository. With today’s infrastructure technologies using the cloud, systems can now support large storage and scalable compute. Therefore, a large, expanding data pool and fast processing is virtually endless for maintaining all the extracted raw data.</p>
+
+<p><img src="/images/post/ELT.jpeg" alt="ELT" /></p>
+
+<p>In this way, the ELT approach provides a modern alternative to ETL. However, it’s still evolving. Therefore, the frameworks and tools to support the ELT process are not always fully developed to facilitate load and processing of large amount of data. The upside is very promising - enabling unlimited access to all of your data at any time and saving developers efforts and time for BI users and analysts.</p>
+
+<h2>Summarizing 10 Pros &amp; Cons of ETL and ELT</h2>
+
+<p><strong>1. Time - Load</strong></p>
+
+<p>ETL: Uses staging area and system, extra time to load data</p>
+
+<p>ELT: All in one system, load only once</p>
+
+<p><strong>2. Time - Transformation</strong></p>
+
+<p>ETL: Need to wait, especially for big data sizes - as data grows, transformation time increases</p>
+
+<p>ELT: All in one system, speed is not dependent on data size</p>
+
+<p><strong>3. Time - Maintenance</strong></p>
+
+<p>ETL: High maintenance - choice of data to load and transform and must do it again if deleted or want to enhance the main data repository</p>
+
+<p>ELT: Low maintenance - all data is always available</p>
+
+<p><strong>4. Implementation complexity</strong></p>
+
+<p>ETL: At early stage, requires less space and result is clean</p>
+
+<p>ELT: Requires in-depth knowledge of tools and expert design of the main large repository</p>
+
+<p><strong>5. Analysis &amp; processing style</strong></p>
+
+<p>ETL: Based on multiple scripts to create the views - deleting view means deleting data</p>
+
+<p>ELT: Creating adhoc views - low cost for building and maintaining</p>
+
+<p><strong>6. Data limitation or restriction in supply</strong></p>
+
+<p>ETL: By presuming and choosing data a priori</p>
+
+<p>ELT: By HW (none) and data retention policy</p>
+
+<p><strong>7. Data warehouse support</strong></p>
+
+<p>ETL: Prevalent legacy model used for on-premises and relational, structured data</p>
+
+<p>ELT: Tailored to using in scalable cloud infrastructure to support structured, unstructured such big data sources</p>
+
+<p><strong>8. Data lake support</strong></p>
+
+<p>ETL: Not part of approach</p>
+
+<p>ELT: Enables use of lake with unstructured data supported</p>
+
+<p><strong>9. Usability</strong></p>
+
+<p>ETL: Fixed tables, Fixed timeline, Used mainly by IT</p>
+
+<p>ELT: Ad Hoc, Agility, Flexibility, Usable by everyone from developer to citizen integrator</p>
+
+<p><strong>10. Cost-effective</strong></p>
+
+<p>ETL: Not cost-effective for small and medium businesses</p>
+
+<p>ELT: Scalable and available to all business sizes using online SaaS solutions</p>
+]]></content>
+  </entry>
+  
+</feed>
