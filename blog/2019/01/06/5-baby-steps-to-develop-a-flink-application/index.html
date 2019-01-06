@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>5 Baby Steps to Develop a Flink Application - Hackx's Blog</title>
+  <meta name="author" content="Mike Cao">
+
+  
+  <meta name="description" content="一个人固然寂寞，两个人孤灯下无言相对却可以更寂寞。 &ndash;龙应台 《目送》 Getting up and running with Flink is easy as ABC. In this post, we go over 5 “baby” steps to guide you &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://untitled-life.github.io/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Hackx's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+<script type="text/javascript">
+    function addBlankTargetForLinks() {
+        $('a[href^="http"]').each(function () {
+            $(this).attr('target', '_blank');
+        });
+    }
+
+    $(document).bind('DOMNodeInserted', function (event) {
+        addBlankTargetForLinks();
+    });
+</script>
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hackx's Blog</a></h1>
+  
+    <h2>好男人总被坏女人伤害，好女人总被坏男人伤害，或者好男人和好女人都各自忍受孤独</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="untitled-life.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/books">Books</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">5 Baby Steps to Develop a Flink Application</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2019-01-06T10:25:13+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>10:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>一个人固然寂寞，两个人孤灯下无言相对却可以更寂寞。 &ndash;龙应台 《目送》</p>
+
+<!-- more -->
+
+
+<p>Getting up and running with Flink is easy as ABC. In this post, we go over 5 “baby” steps to guide you through setting up your first running Flink application locally. We discuss the software requirements to get started and point out some training resources that will help you understand the functionality of the framework. We also show you how to bootstrap an application, if you prefer to start from scratch! This quick overview should enable you to spin up a Flink application in close to no time.</p>
+
+<h2>Software requirements</h2>
+
+<p>You can develop and execute Flink applications on Linux, Mac OS X and Windows. Because most of the developers in the community operate in Unix-based setups, this environment includes the richest tooling support. To get started, the only real requirement is to have a Java Development Kit (JDK) 8 (or higher) installed — regardless of whether you are going to use Java or Scala for development. Although it is not strictly required to develop Flink applications, we recommend that you also set up the following software on your machine:</p>
+
+<ul>
+<li>Apache Maven 3.x. Most examples in our introduction trainings assume Maven for build automation. Moreover, Flink provides Maven archetypes to bootstrap new Flink Maven projects.</li>
+<li>an IDE for Java and/or Scala development. Especially if you are going for Scala, we recommend using IntelliJ due to its out-of-the-box support for Maven and easy-to-install Scala plugin. For Java, Eclipse or Netbeans will work just as well.</li>
+</ul>
+
+
+<h2>Training material to get you going</h2>
+
+<p>If you prefer to start your own project from scratch, then feel free to skip to this and go directly to the next step. Otherwise, data Artisans provides a whole range of training exercises that will help you become familiar with how Flink operates and ease you over time into more complex topics such as time and state management. These exercises (and possible solutions) are available on GitHub, so you can easily clone the project and use Maven to build it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/dataArtisans/flink-training-exercises.git
+</span><span class='line'><span class="nb">cd </span>flink-training-exercises
+</span><span class='line'>mvn clean package
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This should take a couple of minutes, depending on the speed of your connection — Maven will download all the required dependencies. If everything goes as expected and the build is successful, you are on the right track!</p>
+
+<h2>Bootstrapping your own Flink project</h2>
+
+<p>Getting started from an existing project is the easiest way to make your first steps in application development with Flink, sure. But what if you want to create your own project from scratch at some point? Flink provides Maven archetypes to generate Maven projects for both Java and Scala applications. To create a quickstart Java project as a basis for your Flink application, for instance, run the following command:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mvn archetype:generate <span class="se">\</span>
+</span><span class='line'>-DarchetypeGroupId<span class="o">=</span>org.apache.flink <span class="se">\</span>
+</span><span class='line'>-DarchetypeArtifactId<span class="o">=</span>flink-quickstart-java <span class="se">\</span>
+</span><span class='line'>-DarchetypeVersion<span class="o">=</span>1.7.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The command above generates a Maven project for Flink 1.7.0 containing two classes: StreamingJob and BatchJob; that respectively provide the basic skeletons for a streaming and batch Flink program. You can adapt the parameters to match your version and naming preferences! We recommend that you import the project into your IDE of choice to get your hands on developing a runnable example. In case you are struggling with inspiration, you can get some hints in the Flink documentation.</p>
+
+<h2>Running and debugging your first Flink application</h2>
+
+<p>Although Flink is a distributed data processing system, it is easier to get started in a local environment, using just your machine. In a typical setting, you would have the master (JobManager) and workers (TaskManagers) running as separate JVM processes on separate machines; but Flink also includes a mode that allows you to execute applications within the same JVM as a multi-threaded process. This mode allows you to easily develop, debug and execute your Flink application within an IDE pretty much like any other Java or Scala project. To start your application, just run the main() method as you would normally!</p>
+
+<p><img src="/images/post/first_flink_application.png" alt="first_flink_application" /></p>
+
+<h2>Monitoring your Flink application</h2>
+
+<p>If you are wondering what is happening under the hood of your running application, you can easily make use of the web interface that is bundled up in Flink to visualize and monitor it. To enable the interface for your local development, you will need to add a new dependency to your POM file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='properties'><span class='line'><span class="err">&lt;dependency&gt;</span>
+</span><span class='line'>    <span class="err">&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="err">&lt;artifactId&gt;flink-runtime-web_2.11&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="err">&lt;version&gt;${flink.version}&lt;/version&gt;</span>
+</span><span class='line'><span class="err">&lt;/dependency&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And explicitly create a local execution environment with the required configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.apache.flink.configuration.ConfigConstants</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Configuration</span><span class="o">();</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="na">setBoolean</span><span class="o">(</span><span class="n">ConfigConstants</span><span class="o">.</span><span class="na">LOCAL_START_WEBSERVER</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span><span class='line'><span class="n">StreamExecutionEnvironment</span> <span class="n">env</span> <span class="o">=</span> <span class="n">StreamExecutionEnvironment</span><span class="o">.</span><span class="na">createLocalEnvironment</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Flink web interface should now be available under <a href="http://localhost:8081">http://localhost:8081</a> once you get your program running, and look somewhat like the images below. Remember to update the Maven project once you change the POM file, if you don’t have auto-import enabled in your IDE — this might lead to an error when you first try to access the web interface.</p>
+
+<p><img src="/images/post/flink_web_interface.png" alt="flink_web_interface" /></p>
+
+<p>Congratulations! You have just run your first Flink application in an IDE. A tutorial in the Flink documentation goes one step further and shows how to setup a local Flink cluster and submit a job just like submitting it to a remote cluster.</p>
+
+<p>We encourage you to have a look through the Flink documentation for further support or more detailed information. If at any point you feel lost or have any questions: our community is very active on Stack Overflow, and you can also reach out to the developers using the Mailing List. The data Artisans Standard training goes through the training exercises in more detail, so if you would prefer to get some personal guidance, you can find more about future trainings and locations here. We are looking forward to your next adventures with Flink!flri</p>
+
+<p class='post-footer'>
+            显示信息
+            <a href='http://untitled-life.github.io/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/'>http://untitled-life.github.io/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/</a><br/>
+            written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+            &nbsp;posted at <a href='http://untitled-life.github.io'>http://untitled-life.github.io</a>
+            </p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mike Cao</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2019-01-06T10:25:13+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>10:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flink/'>flink</a>, <a class='category' href='/blog/categories/quickstart/'>quickstart</a>
+  
+</span>
+
+
+    </p>
+    <!---->
+      <!--<div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://untitled-life.github.io/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/" data-via="" data-counturl="http://untitled-life.github.io/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/" >Tweet</a>
+  
+  
+  
+</div>
+-->
+    <!---->
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/12/29/the-difference-of-etl-vs-elt/" title="Previous Post: The Difference of ETL VS ELT">&laquo; The Difference of ETL VS ELT</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/">5 Baby Steps to Develop a Flink Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/29/the-difference-of-etl-vs-elt/">The Difference of ETL vs ELT</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/27/wide-vs-narrow-dependencies/">Wide vs Narrow Dependencies</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/23/flink-forward-china-2018-slides/">Flink Forward China 2018 Slides</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/11/how-to-solve-80-percent-of-work-problems-with-communication/">如何用沟通解决80%的工作问题?(转载)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>分类目录</h1>
+    <ul id="category-list"><li><a href='/blog/categories/avro/'>avro (1)</a></li><li><a href='/blog/categories/communication/'>communication (1)</a></li><li><a href='/blog/categories/computing/'>computing (1)</a></li><li><a href='/blog/categories/elt/'>elt (1)</a></li><li><a href='/blog/categories/etl/'>etl (1)</a></li><li><a href='/blog/categories/flink/'>flink (2)</a></li><li><a href='/blog/categories/interview/'>interview (1)</a></li><li><a href='/blog/categories/json/'>json (1)</a></li><li><a href='/blog/categories/life/'>life (1)</a></li><li><a href='/blog/categories/lineages/'>lineages (1)</a></li><li><a href='/blog/categories/quickstart/'>quickstart (1)</a></li><li><a href='/blog/categories/rdd/'>rdd (1)</a></li><li><a href='/blog/categories/resume/'>resume (1)</a></li><li><a href='/blog/categories/serialization/'>serialization (1)</a></li><li><a href='/blog/categories/spark/'>spark (1)</a></li><li><a href='/blog/categories/springboot/'>springboot (1)</a></li><li><a href='/blog/categories/streaming/'>streaming (1)</a></li></ul>
+</section>
+<section>
+    <h1>友情链接</h1>
+    <ul>
+        <li>
+            <a href="https://databricks.com/blog">The Databricks Blog</a>
+        </li>
+        <li>
+            <a href="https://tech.meituan.com/">美团技术团队</a>
+        </li>
+        <li>
+            <a href="https://www.confluent.io/blog/">The Confluent Blog</a>
+        </li>
+        <li>
+            <a href="https://data-artisans.com/blog">The Data Artisans Blog</a>
+        </li>
+        <li>
+            <a href="https://blog.cloudera.com/">The Cloudera Blog</a>
+        </li>
+        <li>
+            <a href="https://yq.aliyun.com/articles">云溪社区</a>
+        </li>
+        <li>
+            <a href="http://ifeve.com/">并发编程网</a>
+        </li>
+        <li>
+            <a href="https://spring.io/blog">The Spring Blog</a>
+        </li>
+
+
+
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Mike Cao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
