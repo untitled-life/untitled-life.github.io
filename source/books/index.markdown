@@ -15,4 +15,9 @@ footer: true
 #### Flink基础教程
 ![Flink基础教程](/images/books/Flink基础教程.png)
 
+## 2109年02月书单
+#### Presto技术内幕
+![Presto技术内幕](/images/books/Presto技术内幕.jpg)
 
+#### 奈飞文化手册
+![奈飞文化手册](/images/books/奈飞文化手册.jpg)
