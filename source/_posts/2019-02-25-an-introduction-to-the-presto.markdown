@@ -14,6 +14,7 @@ Presto是一个开源的分布式SQL查询引擎，用于对 GB 到 PB 量级的
 # 这货能干啥
 Presto可以查询多种平台上的数据，包括Hive、Cassandra、关系数据库甚至专有数据存储，并且可以将多个数据源的数据进行组合查询。Presto的目标客户是那些预期查询响应时间从亚秒到分钟不等的分析师。之前的数据分析工具分为两种：一种是使用昂贵的商业解决方案进行快速分析，另外一种是需要过多硬件的缓慢的“免费”解决方案。Presto提供的方案不用以上两种，但同时具备了他们的优点：分析速度快、免费。
 # 特点列举
+
 | 特点  | 说明  |
 |---|---|
 |多数据源   | 可以支持MySQL、PG、Cassandra、Hive、Kafka、JMX等多种数据源 |
@@ -22,6 +23,7 @@ Presto可以查询多种平台上的数据，包括Hive、Cassandra、关系数�
 |流水线   |基于Pipeline模式设计，在海量数据处理过程中，终端用户不用等待所有的数据都处理完毕后才能看到结果，一旦计算开始，结果数据就会一部分一部分的产出，并被终端用户看到   |
 |混合计算	 |针对一种类型的Connector可以配置一个或者多个Catalog，终端用户可以混合多个Catalog进行相关的计算，例如stats和hive的表进行join   |
 |高性能	   |查询性能是Hive MR的10倍以上   |
+
 # 基本概念
 ## 服务进程
 Presto中有两种类型的服务进程: Coordinators服务进程和Workers服务进程；
@@ -40,7 +42,9 @@ Presto中的目录(Catalog)类似于MySQL中的一个数据库实例，每个目
 表(Table)是一组无序的行，它们被组织成具有类型的命名列。与传统数据库中的Table含义是一样的，从数据源到表(Table)的映射是由连接器(Connector)定义的。
 # 查询执行模型
 Presto在执行SQL语句时，会将这些语句转换为可在分布式Coordinators和Worker节点上执行的查询。
+
 ![query_planner](/images/post/query_planner.png)
+
 ## 语句(Statement)
 其实就是我们输入的SQL语句，这种语句由子句(Clause)、表达式(Expression)、断言(Predicate)组成.
 ## 查询执行(Query)
@@ -51,12 +55,14 @@ Stage: unit of work that does not require shuffling
 ```
 Stage表示查询执行阶段。当Presto运行查询执行(Query)时，Presto会将一个查询执行(Query)拆分成具有层次关系的多个阶段(Stage),一个阶段(Stage)代表查询执行计划的一部分。例如，我们执行一个查询，从Hive的某张表中查询数据并进行一些聚合操作，Presto会创建一个Root Stage, 该Stage聚合其上游Stage的输出数据，然后将结果输出给Coordinator, 并由Coordinator将结果输出给终端用户。
 阶段(Stage)是有层级关系的，每个查询执行(Query)都会有一个Root Stage, 该阶段(Stage)用于聚集上游阶段(Stage)的输出数据，并将最终结果反馈给用户。再次强调，阶段(Stage)只是Coordinator用于对查询执行计划进行管理和建模的逻辑概念。阶段(Stage)根据作用可分为以下四类：
+
 | Stage类型  | 作用  |
 |---|---|
 | Coordinator_Only Stage  | 表结构的变更(创建或者更改)  |
 | Single or Root Stage  | 聚合上游Stage的输出数据，并将最终数据输出给终端用户  |
 | Fixed Stage  | 接收子Stage产出的数据并在集群中对这些数据进行分布式的聚合或者分组计算  |
 | Source Stage  | 链接数据源的Stage, 负责从数据源读取数据，同时会对查询执行计划的优化结果完成相应的操作，如断言下发、条件过滤等。  |
+
 ## 任务(Task)
 上面讲到的Stage并不会在Presto集群中实际运行，他仅仅代表针对于一个SQL语句查询执行(Query)中的一部分查询的执行过程，只是用来对查询执行(Query)计划进行管理和建模。Stage在逻辑上被分为一系列的任务(Task), 而这些任务(Task)则是需要实际运行在Presto的各个Worker节点上的。Presto的层次设计非常清晰，一个查询执行(Query)被分解成具有层析关系的多个阶段(Stage),一个阶段(Stage)又被拆分成一系列的任务(Task),每个任务(Task)处理一个或者读个分片(Split)；每个阶段(Stage)被分解成多个任务(Task), 从而可以并行的执行一个阶段(Stage);任务(Task)也采用了相同的机制，一个Task也被分成了多个驱动器(Driver)，从而可以并行的执行一个任务(Task);
 ## 驱动器(Driver) 
@@ -67,7 +73,9 @@ Stage表示查询执行阶段。当Presto运行查询执行(Query)时，Presto�
 一个操作符(Operator)代表对一个分片(Split)的一种操作，例如过滤、转换等。一个操作符(Operator)依次读取一个分片(Split)中的数据，将操作符(Operator)所代表的计算和操作用于分片(Split)的数据上，并产生输出。每个操作符(Operator)均会以页(Page)为最小处理单位分别读取输入数据和产出输出数据。操作符(Operator)每次一会读取一个页(Page)对象，同理也只会产生一个页(Page)对象。
 page## 页(Page)
 页(Page)是Presto中处理的最小数据单元，一个页(Page)对象包含多个数据Block； 可以将数据Block理解成一个字节数组，存储一个字段的若干行；多个Block横切的一行其实就是一行真实的数据。下图展示了Page和Block的关系
+
 ![page_block](/images/post/page_block.png)
+
 ## 交换(Exchange)
 交换(Exchange)用于查询的不同阶段(Stage)的Presto节点之间的数据传输。任务(Task)将数据生成到输出缓冲区中，下游阶段(Stage)通过名为Exchange Client的Exchange从上游阶段(Stage)读取数据。 交换(Exchange)其实就是用于完成具有上下游关系的阶段(Stage)之间的数据交换。
 ## 模型关系
@@ -77,7 +85,7 @@ page## 页(Page)
 ## 无色结构图
 ![presto_architecture](/images/post/presto_architecture.jpg)
 ## 无色结构图
-![presto_architecture2](/images/post/presto_architecture2.jpg)
+![presto_architecture2](/images/post/presto_architecture2.png)
 ## 查询执行步骤
 - 客户端将SQL发送给Presto集群的Coordinator
 - Coordinator收到查询语句后，对语句进行解析，生成查询执行计划，并且会根据数据本地性生成对应的HttpRemoteTask
