@@ -4,7 +4,7 @@
   <title><![CDATA[Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2019-02-25T12:36:21+08:00</updated>
+  <updated>2019-02-25T12:40:33+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -106,8 +106,9 @@ Presto包含多个内置连接器(Connector)，并且允许第三方开发自定
 
 <h1>查询执行模型</h1>
 
-<p>Presto在执行SQL语句时，会将这些语句转换为可在分布式Coordinators和Worker节点上执行的查询。
-<img src="http://untitled-life.github.io/images/post/query_planner.png" alt="query_planner" /></p>
+<p>Presto在执行SQL语句时，会将这些语句转换为可在分布式Coordinators和Worker节点上执行的查询。</p>
+
+<p><img src="http://untitled-life.github.io/images/post/query_planner.png" alt="query_planner" /></p>
 
 <h2>语句(Statement)</h2>
 
@@ -124,13 +125,35 @@ Presto包含多个内置连接器(Connector)，并且允许第三方开发自定
 
 
 <p>Stage表示查询执行阶段。当Presto运行查询执行(Query)时，Presto会将一个查询执行(Query)拆分成具有层次关系的多个阶段(Stage),一个阶段(Stage)代表查询执行计划的一部分。例如，我们执行一个查询，从Hive的某张表中查询数据并进行一些聚合操作，Presto会创建一个Root Stage, 该Stage聚合其上游Stage的输出数据，然后将结果输出给Coordinator, 并由Coordinator将结果输出给终端用户。
-阶段(Stage)是有层级关系的，每个查询执行(Query)都会有一个Root Stage, 该阶段(Stage)用于聚集上游阶段(Stage)的输出数据，并将最终结果反馈给用户。再次强调，阶段(Stage)只是Coordinator用于对查询执行计划进行管理和建模的逻辑概念。阶段(Stage)根据作用可分为以下四类：
-| Stage类型  | 作用  |
-|&mdash;|&mdash;|
-| Coordinator_Only Stage  | 表结构的变更(创建或者更改)  |
-| Single or Root Stage  | 聚合上游Stage的输出数据，并将最终数据输出给终端用户  |
-| Fixed Stage  | 接收子Stage产出的数据并在集群中对这些数据进行分布式的聚合或者分组计算  |
-| Source Stage  | 链接数据源的Stage, 负责从数据源读取数据，同时会对查询执行计划的优化结果完成相应的操作，如断言下发、条件过滤等。  |</p>
+阶段(Stage)是有层级关系的，每个查询执行(Query)都会有一个Root Stage, 该阶段(Stage)用于聚集上游阶段(Stage)的输出数据，并将最终结果反馈给用户。再次强调，阶段(Stage)只是Coordinator用于对查询执行计划进行管理和建模的逻辑概念。阶段(Stage)根据作用可分为以下四类：</p>
+
+<table>
+<thead>
+<tr>
+<th> Stage类型  </th>
+<th> 作用  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Coordinator_Only Stage  </td>
+<td> 表结构的变更(创建或者更改)  </td>
+</tr>
+<tr>
+<td> Single or Root Stage  </td>
+<td> 聚合上游Stage的输出数据，并将最终数据输出给终端用户  </td>
+</tr>
+<tr>
+<td> Fixed Stage  </td>
+<td> 接收子Stage产出的数据并在集群中对这些数据进行分布式的聚合或者分组计算  </td>
+</tr>
+<tr>
+<td> Source Stage  </td>
+<td> 链接数据源的Stage, 负责从数据源读取数据，同时会对查询执行计划的优化结果完成相应的操作，如断言下发、条件过滤等。  </td>
+</tr>
+</tbody>
+</table>
+
 
 <h2>任务(Task)</h2>
 
@@ -148,8 +171,9 @@ Presto包含多个内置连接器(Connector)，并且允许第三方开发自定
 
 <p>一个操作符(Operator)代表对一个分片(Split)的一种操作，例如过滤、转换等。一个操作符(Operator)依次读取一个分片(Split)中的数据，将操作符(Operator)所代表的计算和操作用于分片(Split)的数据上，并产生输出。每个操作符(Operator)均会以页(Page)为最小处理单位分别读取输入数据和产出输出数据。操作符(Operator)每次一会读取一个页(Page)对象，同理也只会产生一个页(Page)对象。
 page## 页(Page)
-页(Page)是Presto中处理的最小数据单元，一个页(Page)对象包含多个数据Block； 可以将数据Block理解成一个字节数组，存储一个字段的若干行；多个Block横切的一行其实就是一行真实的数据。下图展示了Page和Block的关系
-<img src="http://untitled-life.github.io/images/post/page_block.png" alt="page_block" /></p>
+页(Page)是Presto中处理的最小数据单元，一个页(Page)对象包含多个数据Block； 可以将数据Block理解成一个字节数组，存储一个字段的若干行；多个Block横切的一行其实就是一行真实的数据。下图展示了Page和Block的关系</p>
+
+<p><img src="http://untitled-life.github.io/images/post/page_block.png" alt="page_block" /></p>
 
 <h2>交换(Exchange)</h2>
 
@@ -169,7 +193,7 @@ page## 页(Page)
 
 <h2>无色结构图</h2>
 
-<p><img src="http://untitled-life.github.io/images/post/presto_architecture2.jpg" alt="presto_architecture2" /></p>
+<p><img src="http://untitled-life.github.io/images/post/presto_architecture2.png" alt="presto_architecture2" /></p>
 
 <h2>查询执行步骤</h2>
 
