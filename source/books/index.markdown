@@ -21,3 +21,9 @@ footer: true
 
 #### 奈飞文化手册
 ![奈飞文化手册](/images/books/奈飞文化手册.jpg)
+
+## 2109年03月书单
+
+![RESTful Web APIs](/images/books/RESTfulWebAPIs.jpg)
+
+![Apache Hive Essentials](/images/books/ApacheHiveEssentials.jpg)
