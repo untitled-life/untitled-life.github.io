@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>4 Steps to Get Your Flink Application Ready for Production - Hackx's Blog</title>
+  <meta name="author" content="Mike Cao">
+
+  
+  <meta name="description" content="独裁，专制，腐败，不是哪一个主义制度所独有，但是东欧革命狂潮就应该给所有的专制政权，不管它是否什么主义，一个冰冷的警告，暴力，不能持久。 &ndash;龙应台 《百年思索》 原文地址：https://www.da-platform.com/blog/4-steps-flink- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://untitled-life.github.io/blog/2019/03/09/4-steps-to-get-your-flink-application-ready-for-production/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Hackx's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+<script type="text/javascript">
+    function addBlankTargetForLinks() {
+        $('a[href^="http"]').each(function () {
+            $(this).attr('target', '_blank');
+        });
+    }
+
+    $(document).bind('DOMNodeInserted', function (event) {
+        addBlankTargetForLinks();
+    });
+</script>
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hackx's Blog</a></h1>
+  
+    <h2>好男人总被坏女人伤害，好女人总被坏男人伤害，或者好男人和好女人都各自忍受孤独</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="untitled-life.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/books">Books</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">4 Steps to Get Your Flink Application Ready for Production</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2019-03-09T16:12:19+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>4:12 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>独裁，专制，腐败，不是哪一个主义制度所独有，但是东欧革命狂潮就应该给所有的专制政权，不管它是否什么主义，一个冰冷的警告，暴力，不能持久。 &ndash;龙应台 《百年思索》</p></blockquote>
+
+<!-- more -->
+
+
+<p>原文地址：<a href="https://www.da-platform.com/blog/4-steps-flink-application-production-ready">https://www.da-platform.com/blog/4-steps-flink-application-production-ready</a></p>
+
+<p>本文将描述使Flink应用程序投入生产的必要配置步骤。在下面的部分中，我们概述了重要的配置参数，而这些参数是工程领导、DevOps和数据工程师将Flink作业引入生产阶段之前需要仔细考虑的。Apache Flink为大多数配置选项提供了开箱即用的默认设置，在许多情况下，这是POC阶段(概念验证)或探索不同api和Flink抽象的良好起点。</p>
+
+<p>然而，将Flink应用程序引入生产环境需要额外的配置，这些配置能够有效地扩展和再次扩展您的应用程序，并使其可用于生产，并与不同的系统需求、Flink版本和连接器兼容，以用于未来的迭代和潜在的升级。</p>
+
+<p>下面，我们将收集一些配置要点，以便在将Flink应用程序投入生产之前进行审查:
+<img src="/images/post/FFT-4-steps-to-get-your-app-production-ready.png" alt="FFT-4-steps-to-get-your-app-production-ready.png" /></p>
+
+<h2>1. 明确定义Flink运算符的最大并行度</h2>
+
+<p>Flink的键控状态被组织在所谓的键组中，然后这些键组被分发到您的Flink操作符的并行实例中。这是要分发的最小原子单元，因此也会影响Flink应用程序的可伸缩性。每个操作符的键组数对于每个作业只选择一次:手动或默认情况下。默认值将给出大致的操作并行度* 1.5，下界为128，上界为32768。它可以通过setMaxParallelism(int maxParallelism)手动定义每个作业和/或每个操作符。</p>
+
+<p>任何进入生产环境的Flink作业都应该指定最大的并行度。但是，这个值的决定应该经过仔细考虑，因为此时，一旦设置了最大并行度，就不能在稍后的阶段更新它。更改最大并行度的Flink作业只能使用全新的状态从头开始。在更改最大并行度时，从以前的检查点或保存点进行恢复不可用。</p>
+
+<p>建议将最大并行度设置为足以满足应用程序未来对可伸缩性和可用性的需求，同时又相对较低，以避免影响应用程序的总体性能。这是由于这样一个事实:在具有最高并行度的情况下，Flink为其重新伸缩的能力维护某些元数据，这可能会增加Flink应用程序的总体状态大小。</p>
+
+<p>Flink文档提供了关于如何<a href="https://ci.apache.org/projects/flink/flink-docs-stable/ops/state/large_state_tuning.html">使用检查点配置使用大状态的应用程序</a>的额外信息和指导。</p>
+
+<h2>2. 为Flink运算符分配唯一的用户id (uuid)</h2>
+
+<p>对于有状态Flink应用程序，建议为所有运算符分配惟一的用户id (uuid)。这是必要的，因为一些内置Flink运算符(比如windows)是有状态的，而其他运算符可能是无状态的，这使得很难知道哪些内置运算符实际上是有状态的，哪些不是。</p>
+
+<p>Flink运算符的uuid可以使用uid(String uid)方法分配。运算符uuid允许Apache Flink有效地将运算符状态从保存点映射到适当的运算符，这是保存点在Flink应用程序中正常工作所必需的元素。</p>
+
+<h2>3.全面考虑Flink应用程序的状态后端</h2>
+
+<p>在投入生产之前，开发人员和工程领导应该仔细考虑他们的Flink应用程序的状态后端类型，因为Apache Flink目前不支持状态后端互操作性。这使得有必要从保存点恢复状态，用于最初获取保存点的相同状态后端。</p>
+
+<p>在之前的一篇<a href="https://data-artisans.com/blog/stateful-stream-processing-apache-flink-state-backends">博客</a>文章中介绍了Apache Flink中目前支持的3种状态后端之间的差异。</p>
+
+<p>对于生产用例，强烈建议使用RocksDB状态后端，因为这是目前唯一一种支持大状态和异步操作(如快照)的状态后端，这些操作允许在不停止Flink操作的情况下编写快照。另一方面，使用RocksDB状态后端可能会带来性能折衷，因为所有状态访问和检索都需要序列化(和反序列化)才能跨越JNI边界，这可能会影响应用程序的吞吐量(与内存状态后端相比)。</p>
+
+<h2>4. 使作业管理器具有高可用性(HA)</h2>
+
+<p>高可用性(HA)配置确保Flink应用程序中的JobManager组件的潜在故障能够自动恢复，从而最大限度地减少停机时间。JobManager的主要职责是协调Flink部署，比如调度和适当的资源分配。</p>
+
+<p>默认情况下，Flink为每个Flink集群设置一个JobManager实例。这将创建一个单点故障点(SPOF):如果JobManager崩溃，则无法提交任何新程序，并且正在运行的程序会失败。因此，强烈建议为生产环境<a href="https://ci.apache.org/projects/flink/flink-docs-stable/ops/config.html#high-availability-ha">配置高可用性HA</a>。</p>
+
+<p>以上4个步骤遵循社区设置的最佳实践，这些实践允许Flink应用程序在维护状态的同时任意扩展，处理更大容量的数据流和状态，并增加它们的可用性保证——生产用例的特定需求。Apache Flink文档中的<a href="https://ci.apache.org/projects/flink/flink-docs-stable/ops/">部署和操作</a>部分为稳定的Flink操作提供了额外的指导和支持。我们强烈建议在将应用程序转移到生产环境之前，遵循上述步骤并仔细阅读文档。</p>
+
+<p class='post-footer'>
+            显示信息
+            <a href='http://untitled-life.github.io/blog/2019/03/09/4-steps-to-get-your-flink-application-ready-for-production/'>http://untitled-life.github.io/blog/2019/03/09/4-steps-to-get-your-flink-application-ready-for-production/</a><br/>
+            written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+            &nbsp;posted at <a href='http://untitled-life.github.io'>http://untitled-life.github.io</a>
+            </p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mike Cao</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2019-03-09T16:12:19+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>4:12 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flink/'>flink</a>
+  
+</span>
+
+
+    </p>
+    <!---->
+      <!--<div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://untitled-life.github.io/blog/2019/03/09/4-steps-to-get-your-flink-application-ready-for-production/" data-via="" data-counturl="http://untitled-life.github.io/blog/2019/03/09/4-steps-to-get-your-flink-application-ready-for-production/" >Tweet</a>
+  
+  
+  
+</div>
+-->
+    <!---->
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/02/25/an-introduction-to-the-presto/" title="Previous Post: An Introduction to the Presto">&laquo; An Introduction to the Presto</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/03/09/4-steps-to-get-your-flink-application-ready-for-production/">4 Steps to Get Your Flink Application Ready for Production</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/02/25/an-introduction-to-the-presto/">An Introduction to the Presto</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/">5 Baby Steps to Develop a Flink Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/29/the-difference-of-etl-vs-elt/">The Difference of ETL vs ELT</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/12/27/wide-vs-narrow-dependencies/">Wide vs Narrow Dependencies</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>分类目录</h1>
+    <ul id="category-list"><li><a href='/blog/categories/avro/'>avro (1)</a></li><li><a href='/blog/categories/communication/'>communication (1)</a></li><li><a href='/blog/categories/computing/'>computing (1)</a></li><li><a href='/blog/categories/elt/'>elt (1)</a></li><li><a href='/blog/categories/etl/'>etl (1)</a></li><li><a href='/blog/categories/flink/'>flink (3)</a></li><li><a href='/blog/categories/interview/'>interview (1)</a></li><li><a href='/blog/categories/json/'>json (1)</a></li><li><a href='/blog/categories/life/'>life (1)</a></li><li><a href='/blog/categories/lineages/'>lineages (1)</a></li><li><a href='/blog/categories/presto/'>presto (1)</a></li><li><a href='/blog/categories/quickstart/'>quickstart (1)</a></li><li><a href='/blog/categories/rdd/'>rdd (1)</a></li><li><a href='/blog/categories/resume/'>resume (1)</a></li><li><a href='/blog/categories/serialization/'>serialization (1)</a></li><li><a href='/blog/categories/spark/'>spark (1)</a></li><li><a href='/blog/categories/springboot/'>springboot (1)</a></li><li><a href='/blog/categories/streaming/'>streaming (1)</a></li></ul>
+</section>
+<section>
+    <h1>友情链接</h1>
+    <ul>
+        <li>
+            <a href="https://databricks.com/blog">The Databricks Blog</a>
+        </li>
+        <li>
+            <a href="https://tech.meituan.com/">美团技术团队</a>
+        </li>
+        <li>
+            <a href="https://www.confluent.io/blog/">The Confluent Blog</a>
+        </li>
+        <li>
+            <a href="https://data-artisans.com/blog">The Data Artisans Blog</a>
+        </li>
+        <li>
+            <a href="https://blog.cloudera.com/">The Cloudera Blog</a>
+        </li>
+        <li>
+            <a href="https://yq.aliyun.com/articles">云溪社区</a>
+        </li>
+        <li>
+            <a href="http://ifeve.com/">并发编程网</a>
+        </li>
+        <li>
+            <a href="https://spring.io/blog">The Spring Blog</a>
+        </li>
+
+
+
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Mike Cao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
