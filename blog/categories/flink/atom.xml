@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flink | Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/blog/categories/flink/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2019-03-09T19:53:15+08:00</updated>
+  <updated>2019-03-09T19:57:40+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -146,7 +146,7 @@ StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironme
 ...
 </code></pre>
 
-<p>在程序运行之后，Flink web接口现在应该可以在<a href="http://localhost:8081%E4%B8%8B%E4%BD%BF%E7%94%A8%EF%BC%8C%E7%9C%8B%E8%B5%B7%E6%9D%A5%E6%9C%89%E7%82%B9%E5%83%8F%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%9B%BE%E5%83%8F%E3%80%82%E8%AE%B0%E4%BD%8F%EF%BC%8C%E6%9B%B4%E6%94%B9POM%E6%96%87%E4%BB%B6%E5%90%8E%E8%A6%81%E6%9B%B4%E6%96%B0Maven%E9%A1%B9%E7%9B%AE%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%82%A8%E7%9A%84IDE%E4%B8%AD%E6%B2%A1%E6%9C%89%E5%90%AF%E7%94%A8%E8%87%AA%E5%8A%A8%E5%AF%BC%E5%85%A5%E2%80%94%E2%80%94%E8%BF%99%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%9C%A8%E6%82%A8%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AEweb%E7%95%8C%E9%9D%A2%E6%97%B6%E5%AF%BC%E8%87%B4%E9%94%99%E8%AF%AF%E3%80%82">http://localhost:8081%E4%B8%8B%E4%BD%BF%E7%94%A8%EF%BC%8C%E7%9C%8B%E8%B5%B7%E6%9D%A5%E6%9C%89%E7%82%B9%E5%83%8F%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%9B%BE%E5%83%8F%E3%80%82%E8%AE%B0%E4%BD%8F%EF%BC%8C%E6%9B%B4%E6%94%B9POM%E6%96%87%E4%BB%B6%E5%90%8E%E8%A6%81%E6%9B%B4%E6%96%B0Maven%E9%A1%B9%E7%9B%AE%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%82%A8%E7%9A%84IDE%E4%B8%AD%E6%B2%A1%E6%9C%89%E5%90%AF%E7%94%A8%E8%87%AA%E5%8A%A8%E5%AF%BC%E5%85%A5%E2%80%94%E2%80%94%E8%BF%99%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%9C%A8%E6%82%A8%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AEweb%E7%95%8C%E9%9D%A2%E6%97%B6%E5%AF%BC%E8%87%B4%E9%94%99%E8%AF%AF%E3%80%82</a></p>
+<p>在程序运行之后，Flink web接口现在应该可以在<a href="http://localhost:8081">本地环境</a> 下使用，看起来有点像下面的图像。记住，更改POM文件后要更新Maven项目，如果您的IDE中没有启用自动导入——这可能会在您第一次尝试访问web界面时导致错误。</p>
 
 <p><img src="/images/post/flink-application-1.png" alt="flink-application-1" /></p>
 
