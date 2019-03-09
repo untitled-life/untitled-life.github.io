@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://untitled-life.github.io/blog/2019/03/09/4-characteristics-of-timers-in-apache-flink-to-keep-in-mind/</loc>
+<lastmod>2019-03-09T16:23:32+08:00</lastmod>
+</url>
+<url>
 <loc>http://untitled-life.github.io/blog/2019/03/09/4-steps-to-get-your-flink-application-ready-for-production/</loc>
 <lastmod>2019-03-09T16:12:19+08:00</lastmod>
 </url>
