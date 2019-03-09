@@ -24,6 +24,7 @@ footer: true
 
 ## 2109年03月书单
 
-![RESTful Web APIs](/images/books/RESTfulWebAPIs.jpg)
+
+![RESTful—Web-APIs](/images/books/RESTfulWebAPIs.jpg)
 
 ![Apache Hive Essentials](/images/books/ApacheHiveEssentials.jpg)
