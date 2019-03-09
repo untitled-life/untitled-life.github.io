@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flink | Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/blog/categories/flink/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2019-03-09T16:48:00+08:00</updated>
+  <updated>2019-03-09T19:53:15+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -12,6 +12,206 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Apache Flink中保存点和检查点之间的差异(译文)]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/09/3-differences-between-savepoints-and-checkpoints-in-apache-flink/"/>
+    <updated>2019-03-09T19:48:36+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/09/3-differences-between-savepoints-and-checkpoints-in-apache-flink</id>
+    <content type="html"><![CDATA[<blockquote><p>我相信，如果你会看见敌人的伤口，你就不会拿起枪来对着他。 &ndash;龙应台 《谁欠了她们的人生》</p></blockquote>
+
+<!-- more -->
+
+
+<p>原文地址：<a href="https://www.da-platform.com/blog/differences-between-savepoints-and-checkpoints-in-flink">https://www.da-platform.com/blog/differences-between-savepoints-and-checkpoints-in-flink</a></p>
+
+<p>在Apache Flink中，经常有人会把Savepoints和Checkpoints搞混淆，今天我们就给大家分别解释下这两个东西以及他们之间的差异。</p>
+
+<h1>保存点和检查点分别是什么?</h1>
+
+<p>Apache Flink保存点是一种允许对整个流应用程序进行“时间点”快照的特性。此快照包含关于您在输入中的位置的信息，以及关于源的所有位置和整个应用程序状态的信息。我们可以在不停止应用程序的情况下通过使用Chandy-Lamport算法的变体获得整个状态的一致快照。保存点包含两个主要元素:</p>
+
+<ol>
+<li>首先，保存点包括一个目录，目录中包含(通常较大的)二进制文件，这些文件表示流应用程序在检查点/保存点处的整个状态</li>
+<li>一个(相对较小的)元数据文件，它包含指向保存点的所有文件的指针(路径)，这些文件存储在所选的分布式文件系统或数据存储中。</li>
+</ol>
+
+
+<p>请阅读我们之前的博客文章，了解<a href="https://www.da-platform.com/blog/turning-back-time-savepoints">如何在流应用程序中启用保存点的详细步骤</a>。</p>
+
+<p>上面关于保存点的所有内容听起来与我们在前面的一篇文章中解释的Apache Flink中的检查点非常相似。检查点是Apache Flink用于从故障中恢复的内部机制，包括应用程序状态的副本和输入的读取位置。在失败的情况下，Flink通过从检查点加载应用程序状态并继续从恢复的读取位置恢复应用程序，就像什么都没有发生一样。</p>
+
+<h1>Apache Flink中保存点和检查点之间的3个差异</h1>
+
+<p>检查点和保存点是Apache Flink作为流处理框架非常独特的两个特性。保存点和检查点在它们的实现中可能看起来很相似，但是，这两个特性在以下3个方面有所不同:</p>
+
+<ol>
+<li>目的:从概念上讲，Flink的保存点不同于检查点，就像备份不同于传统数据库系统中的恢复日志一样。检查点的主要目标是充当Apache Flink中的恢复机制，确保一个容错处理框架能够从潜在的作业失败中恢复。相反，Savepoints的主要目标是作为在用户手动备份和恢复活动之后重新启动、继续或重新打开暂停的应用程序的方式。</li>
+<li>实现:检查点和保存点的实现是不同的。检查点被设计成轻量级和快速的。例如，使用RocksDB状态后端的增量检查点使用RocksDB的内部格式，而不是Flink的本机格式。这用于加快RocksDB的检查点进程，使其成为更轻量级检查点机制的第一个实例。相反，保存点的设计目的是更加关注数据的可移植性，并支持对作业所做的任何更改，这些更改会使生成和恢复保存点的成本稍微高一些。</li>
+<li>生命周期:检查点本质上是自动的、周期性的。它们由Flink自动地、定期地创建和删除，不需要任何用户交互，以确保在意外的作业失败时能够完全恢复。相反，保存点是由用户手动拥有和管理的(即它们是计划、创建和删除的)。</li>
+</ol>
+
+
+<p><img src="/images/post/3-diff-1.jpeg" alt="3-diff-1" /></p>
+
+<h1>什么时候在流应用程序中使用保存点?</h1>
+
+<p>尽管流处理应用程序处理连续生成的数据(数据“在动”)，但是在某些情况下，应用程序可能需要重新处理以前处理过的数据。Apache Flink中的保存点允许您在以下情况下这样做:</p>
+
+<ol>
+<li>部署流应用程序的更新版本，包括新特性、bug修复或更好的机器学习模型。</li>
+<li>为应用程序引入A/B测试，使用相同的源数据流测试程序的不同版本，在不牺牲先前状态的情况下从相同的时间点开始测试。</li>
+<li>在需要更多资源的情况下重新调整应用程序。</li>
+<li>将流应用程序迁移到新的Apache Flink版本，或者将应用程序升级到不同的集群。</li>
+</ol>
+
+
+<h1>结论</h1>
+
+<p>Apache Flink检查站和保存点是两个不同的特性,适用于不同的需求,以确保一致性、容错和确保应用程序状态保存在意想不到的工作失败(检查点)以及在升级的情况下,bug修复、迁移或A / B测试(使用保存点)。这两个特性结合在一起，可以在不同的实例中确保应用程序的状态在不同的场景和环境中保持不变。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[开发Flink应用程序的5个起步步骤]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/09/5-baby-steps-to-develop-a-flink-application/"/>
+    <updated>2019-03-09T19:39:10+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/09/5-baby-steps-to-develop-a-flink-application</id>
+    <content type="html"><![CDATA[<blockquote><p>一路上，两个人都很忙碌。是这样的，妈妈必须做导游，给安安介绍这个世界，安安是新来的。而妈妈漏掉的东西，安安得指出来，提醒他。 &ndash;龙应台 《孩子你慢慢来》</p></blockquote>
+
+<!-- more -->
+
+
+<p>原文地址：<a href="https://www.da-platform.com/blog/5-steps-flink-application-development">https://www.da-platform.com/blog/5-steps-flink-application-development</a></p>
+
+<p>使Flink运转起来非常简单。在这篇文章中，我们将介绍5个起步步骤，指导您在本地环境搭建第一个可以运行的Flink应用程序。我们从讨论软件需求开始，并指出一些帮助您理解框架功能的培训资源。如果您喜欢从头开始，我们还将向您展示如何引导应用程序!这个快速概述将使您能够几乎不耗费任何时间的情况下启动Flink应用程序。</p>
+
+<h1>1. 软件需求</h1>
+
+<p>您可以在Linux、Mac OS X和Windows上开发和执行Flink应用程序。因为社区中的大多数开发人员都是在基于unix的设置中操作的，所以这个环境包含了最丰富的工具支持。首先，真正的需求是安装Java开发工具包(JDK) 8(或更高版本)——无论您是要使用Java还是Scala进行开发。虽然开发Flink应用程序并不是严格要求的，但我们建议您也在您的计算机上安装以下软件:</p>
+
+<ul>
+<li> Apache Maven 3. x。在我们的介绍培训中，大多数示例都使用Maven实现构建自动化。此外，Flink还提供了Maven原型来引导新的Flink Maven项目。</li>
+<li> 用于Java和/或Scala开发的IDE。特别是对于Scala，我们推荐使用IntelliJ，因为它对Maven和易于安装的Scala插件提供了开箱即用的支持。对于Java, Eclipse或Netbeans也能正常工作。</li>
+</ul>
+
+
+<h1>2. 为你准备的训练材料</h1>
+
+<p>如果您喜欢从头开始您自己的项目，那么您可以直接跳到下一个步骤。否则，data Artisans将提供一系列的培训练习，帮助您熟悉Flink的操作方式，并随着时间的推移使您轻松掌握时间和状态管理等更复杂的主题。这些练习(和可能的解决方案)可以在GitHub上找到，所以您可以轻松地克隆项目并使用Maven来构建它:</p>
+
+<pre><code class="bash">git clone https://github.com/dataArtisans/flink-training-exercises.git
+cd flink-training-exercises
+mvn clean package
+</code></pre>
+
+<p>这需要几分钟，具体时间取决于连接的速度——Maven将下载所有必需的依赖项。如果一切按计划进行，构建成功，那么您就走上了正确的轨道!</p>
+
+<h1>3.引导您自己的Flink项目</h1>
+
+<p>当然，从现有项目开始是使用Flink进行应用程序开发的最简单方法。但是如果您想在某个时候从头开始创建自己的项目呢?Flink提供Maven原型来为Java和Scala应用程序生成Maven项目。例如，要创建一个quickstart Java项目作为Flink应用程序的基础，请运行以下命令:</p>
+
+<pre><code class="bash">mvn archetype:generate \
+-DarchetypeGroupId=org.apache.flink \
+-DarchetypeArtifactId=flink-quickstart-java \
+-DarchetypeVersion=1.7.0
+</code></pre>
+
+<p>上面的命令为Flink 1.7.0生成一个Maven项目，其中包含两个类:StreamingJob和BatchJob;它们分别为流和批处理Flink程序提供了基本框架。您可以调整参数以匹配您的版本和命名首选项!我们建议您将该项目导入您选择的IDE中，以便开发一个可运行的示例。如果您正在与灵感作斗争，您可以在<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.7/tutorials/datastream_api.html#writing-a-flink-program">Flink文档</a>中获得一些提示。</p>
+
+<h1>4. 运行和调试您的第一个Flink应用程序</h1>
+
+<p>尽管Flink是一个分布式数据处理系统，但在本地环境中使用您的机器更容易启动它。在典型的设置中，您会让master (JobManager)和workers (taskmanager)在不同的机器上作为独立的JVM进程运行;但是Flink还包括一种模式，允许您像多线程进程一样在相同的JVM中执行应用程序。这种模式允许您在IDE中轻松地开发、调试和执行Flink应用程序，就像任何其他Java或Scala项目一样。要启动应用程序，只需像往常一样运行main()方法!</p>
+
+<p><img src="/images/post/flink-application.png" alt="flink-application" /></p>
+
+<h1>5. 监视您的Flink应用程序</h1>
+
+<p>如果您想知道正在运行的应用程序的底层发生了什么，那么您可以轻松地使用捆绑在Flink中的web接口来可视化和监视它。要为本地开发启用该接口，您需要向POM文件添加一个新的依赖项:</p>
+
+<pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+    &lt;artifactId&gt;flink-runtime-web_2.11&lt;/artifactId&gt;
+    &lt;version&gt;${flink.version}&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>并显式创建具有所需配置的本地执行环境:</p>
+
+<pre><code class="java">import org.apache.flink.configuration.ConfigConstants;
+...
+Configuration config = new Configuration();
+config.setBoolean(ConfigConstants.LOCAL_START_WEBSERVER, true);
+StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironment(config);
+...
+</code></pre>
+
+<p>在程序运行之后，Flink web接口现在应该可以在<a href="http://localhost:8081%E4%B8%8B%E4%BD%BF%E7%94%A8%EF%BC%8C%E7%9C%8B%E8%B5%B7%E6%9D%A5%E6%9C%89%E7%82%B9%E5%83%8F%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%9B%BE%E5%83%8F%E3%80%82%E8%AE%B0%E4%BD%8F%EF%BC%8C%E6%9B%B4%E6%94%B9POM%E6%96%87%E4%BB%B6%E5%90%8E%E8%A6%81%E6%9B%B4%E6%96%B0Maven%E9%A1%B9%E7%9B%AE%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%82%A8%E7%9A%84IDE%E4%B8%AD%E6%B2%A1%E6%9C%89%E5%90%AF%E7%94%A8%E8%87%AA%E5%8A%A8%E5%AF%BC%E5%85%A5%E2%80%94%E2%80%94%E8%BF%99%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%9C%A8%E6%82%A8%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AEweb%E7%95%8C%E9%9D%A2%E6%97%B6%E5%AF%BC%E8%87%B4%E9%94%99%E8%AF%AF%E3%80%82">http://localhost:8081%E4%B8%8B%E4%BD%BF%E7%94%A8%EF%BC%8C%E7%9C%8B%E8%B5%B7%E6%9D%A5%E6%9C%89%E7%82%B9%E5%83%8F%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%9B%BE%E5%83%8F%E3%80%82%E8%AE%B0%E4%BD%8F%EF%BC%8C%E6%9B%B4%E6%94%B9POM%E6%96%87%E4%BB%B6%E5%90%8E%E8%A6%81%E6%9B%B4%E6%96%B0Maven%E9%A1%B9%E7%9B%AE%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%82%A8%E7%9A%84IDE%E4%B8%AD%E6%B2%A1%E6%9C%89%E5%90%AF%E7%94%A8%E8%87%AA%E5%8A%A8%E5%AF%BC%E5%85%A5%E2%80%94%E2%80%94%E8%BF%99%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%9C%A8%E6%82%A8%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AEweb%E7%95%8C%E9%9D%A2%E6%97%B6%E5%AF%BC%E8%87%B4%E9%94%99%E8%AF%AF%E3%80%82</a></p>
+
+<p><img src="/images/post/flink-application-1.png" alt="flink-application-1" /></p>
+
+<p><img src="/images/post/flink-application-2.png" alt="flink-application-2" /></p>
+
+<p>恭喜你!您刚刚在IDE中运行了第一个Flink应用程序。Flink文档中的教程更进一步，展示了如何设置本地Flink集群，并像向远程集群提交作业一样提交作业。</p>
+
+<p>我们鼓励您浏览Flink文档以获得进一步的支持或更详细的信息。如果您在任何时候感到困惑或有任何问题:我们的社区在Stack Overflow上非常活跃，您也可以使用邮件列表联系开发人员。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Apache Flink中事件时间的介绍]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/09/stream-processing-an-introduction-to-event-time-in-apache-flink/"/>
+    <updated>2019-03-09T19:30:43+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/09/stream-processing-an-introduction-to-event-time-in-apache-flink</id>
+    <content type="html"><![CDATA[<blockquote><p>一个刽子手的责任，在看准了头颈的分寸，一刀霍下，让鲜血喷起，人头落地。被杀的人究竟有罪或者冤枉，不是刽子手的事情。甚至于即使他明明知道眼前跪着的人其实无辜，也没有人会指责刽子手为凶手。我们可以说，刽子手只是奉命行事，做一天和尚当然就得撞一天钟。应该负责的，是判官；或者，是那个不健全的审判制度；再抽象一点，我们不妨这么说，错在那个封建的社会。 &ndash;龙应台 《人在欧洲》</p></blockquote>
+
+<!-- more -->
+
+
+<p>原文地址：<a href="https://www.da-platform.com/blog/stream-processing-introduction-event-time-apache-flink">https://www.da-platform.com/blog/stream-processing-introduction-event-time-apache-flink</a></p>
+
+<p>Apache Flink在有状态流处理中支持多个时间概念。本文主要关注Apache Flink对事件时间的支持。在下面的小节中，我们将定义Apache Flink的事件时间是什么，我们将研究流处理框架中不同的时间概念，并描述Flink如何使用水印来度量事件时间的进度。</p>
+
+<h1>流处理中的事件时间</h1>
+
+<p>顾名思义，Apache Flink中的事件时间是在生产源上生成每个单独事件的时间。在标准场景中，从不同生产者收集的事件(即与移动应用程序、金融交易、应用程序和机器日志、传感器事件等的交互)在其元数据中存储一个时间元素。这个时间表示特定事件在生产源中生成的时间。当应用程序逻辑需要基于事件生成时间的数据进行处理或计算时，有状态流处理和实时计算将使用事件时间。</p>
+
+<h1>事件时间、处理时间和摄入时间的不同之处</h1>
+
+<p>为了有效地描述Flink如何在流处理中管理不同的时间概念，让我们设想一个场景(如下所示)，在这个场景中，一个手机游戏玩家坐地铁去上班。玩家在平台上启动手机游戏，生成的事件被发送到Flink操作符。但是，当玩家在地铁车厢内时，wifi连接丢失，数据存储在移动设备上，没有传输到流处理系统。一旦用户重新上线，设备就会将剩余的数据发送到流媒体基础设施，然后步行到办公室。</p>
+
+<p>source/images/post/</p>
+
+<p><img src="/images/post/Event-time-FFT-Icon-london-underground.png" alt="Event-time-FFT-Icon-london-underground" /></p>
+
+<p>在上面的场景中，移动游戏提供商可能使用基于Apache Flink的实时消息应用程序来分析游戏上的用户活动，并通过推送通知或消息提供实时优惠。这个应用程序可以基于不同的时间概念来处理传入的数据:我们前面描述的事件时间、处理时间以及我们在下一节中描述的摄入时间。</p>
+
+<p><strong>处理时间</strong>是指在流处理应用程序中执行特定操作的机器时间。当流处理应用程序使用处理时间时，它使用机器的时钟来运行任何操作。一个5小时处理时间窗口将对完整的5个小时时间间隔内到达操作符的所有事件进行合并。处理时间很简单，不需要流和机器之间的协调，而且它提供了最好的性能和最低的延迟。然而，在分布式系统和上面描述的示例这样的场景中，使用处理时间进行计算可能并不总是最合适的，因为事件将异步或无序地到达操作符。</p>
+
+<p><img src="/images/post/Event-time-FFT-Icon-Event-time.png" alt="Event-time-FFT-Icon-Event-time" /></p>
+
+<p><strong>摄取时间</strong>是事件到达流处理应用程序的时间。摄入时间是任何处理延迟及其潜在波动的原因，并且在处理系统“消费”消息时标记时间戳。然后将此时间戳与任何基于时间的操作的特定事件相关联。与处理时间相比，摄入时间提供了更可预测的结果，尽管仍然不是100%准确，因为它不能处理原始时间和无序数据。</p>
+
+<p>与处理时间相比，摄入时间提供了更可预测的结果，因为它在源操作符上一次性分配了一个稳定的时间戳，这使得所有与时间相关的操作都返回到所分配的时间戳。相反，随着处理时间的增加，每个操作符可以根据本地系统时钟将记录分配到不同的窗口。</p>
+
+<p>Apache Flink通过在源上分配自动时间戳和生成自动水印(参见下面)，以类似于事件时间的方式处理摄入时间。</p>
+
+<p>Apache Flink中的默认时间是处理时间。但是，如果应用程序异步工作或与分布式系统一起工作，可能需要将Flink设置为事件时间。相对其他两种时间，事件时间将提供最准确的结果，因为，正如我们前面解释的，它在事件或“消息”源生成时分配时间戳。然后，这个时间戳在所有与时间相关的操作中跟踪事件。事件时间由Apache Flink中的水印处理和支持，我们将在下面介绍。</p>
+
+<p>在Apache Flink中，处理时间可以通过以下代码更新为事件时间:</p>
+
+<pre><code class="java">env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
+</code></pre>
+
+<h1>Flink中的水印和事件时间</h1>
+
+<p>水印是Apache Flink在事件时间中度量进展的机制。水印是数据流的一部分，其携带了一个时间戳t。在数据流中，一个水印(t)宣称事件时间已达到时间t,意思就是不应该有更多的元素，其流时间戳t &lsquo; &lt; = t(即事件时间戳大于或等于水印)。水印对于无序流和不按时间戳排序的异步操作非常重要。通常，水印是一种声明，表示流中的某个特定点，即某个时间戳之前的所有事件都应该已经到达。一旦水印到达操作符，操作符可以将其内部事件时间时钟推进到水印的值。举个例子，在我们使用小时窗口操作的情况下，水印将允许Flink了解特定的小时窗口何时超过小时，以便操作符可以关闭正在运行的现有窗口。</p>
+
+<p>我们之前的<a href="https://www.da-platform.com/blog/watermarks-in-apache-flink-made-easy">一篇文章</a>更详细地描述了这个特性，并在使用Apache Flink处理有状态流的水印时提供了一些有用的观察。</p>
+
+<p>流处理应用程序所选择的时间支持将取决于应用程序的需求和特定的系统特性。为流应用程序选择正确的时间概念至关重要，因为这将最终影响您以后的结果和操作。Apache Flink的设计目的是提供灵活性，并根据应用程序的需求支持不同的时间概念。有关调试窗口和事件时间的更多信息，请阅读<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/monitoring/debugging_event_time.html">Flink文档</a>。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[4 Characteristics of Timers in Apache Flink to Keep in Mind]]></title>
@@ -140,164 +340,6 @@ ctx.timerService( ).deleteEventTimeTimer(timestampOfTimerToStop);
 <p>默认情况下，Flink为每个Flink集群设置一个JobManager实例。这将创建一个单点故障点(SPOF):如果JobManager崩溃，则无法提交任何新程序，并且正在运行的程序会失败。因此，强烈建议为生产环境<a href="https://ci.apache.org/projects/flink/flink-docs-stable/ops/config.html#high-availability-ha">配置高可用性HA</a>。</p>
 
 <p>以上4个步骤遵循社区设置的最佳实践，这些实践允许Flink应用程序在维护状态的同时任意扩展，处理更大容量的数据流和状态，并增加它们的可用性保证——生产用例的特定需求。Apache Flink文档中的<a href="https://ci.apache.org/projects/flink/flink-docs-stable/ops/">部署和操作</a>部分为稳定的Flink操作提供了额外的指导和支持。我们强烈建议在将应用程序转移到生产环境之前，遵循上述步骤并仔细阅读文档。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[5 Baby Steps to Develop a Flink Application]]></title>
-    <link href="http://untitled-life.github.io/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application/"/>
-    <updated>2019-01-06T10:25:13+08:00</updated>
-    <id>http://untitled-life.github.io/blog/2019/01/06/5-baby-steps-to-develop-a-flink-application</id>
-    <content type="html"><![CDATA[<p>一个人固然寂寞，两个人孤灯下无言相对却可以更寂寞。 &ndash;龙应台 《目送》</p>
-
-<!-- more -->
-
-
-<p>Getting up and running with Flink is easy as ABC. In this post, we go over 5 “baby” steps to guide you through setting up your first running Flink application locally. We discuss the software requirements to get started and point out some training resources that will help you understand the functionality of the framework. We also show you how to bootstrap an application, if you prefer to start from scratch! This quick overview should enable you to spin up a Flink application in close to no time.</p>
-
-<h2>Software requirements</h2>
-
-<p>You can develop and execute Flink applications on Linux, Mac OS X and Windows. Because most of the developers in the community operate in Unix-based setups, this environment includes the richest tooling support. To get started, the only real requirement is to have a Java Development Kit (JDK) 8 (or higher) installed — regardless of whether you are going to use Java or Scala for development. Although it is not strictly required to develop Flink applications, we recommend that you also set up the following software on your machine:</p>
-
-<ul>
-<li>Apache Maven 3.x. Most examples in our introduction trainings assume Maven for build automation. Moreover, Flink provides Maven archetypes to bootstrap new Flink Maven projects.</li>
-<li>an IDE for Java and/or Scala development. Especially if you are going for Scala, we recommend using IntelliJ due to its out-of-the-box support for Maven and easy-to-install Scala plugin. For Java, Eclipse or Netbeans will work just as well.</li>
-</ul>
-
-
-<h2>Training material to get you going</h2>
-
-<p>If you prefer to start your own project from scratch, then feel free to skip to this and go directly to the next step. Otherwise, data Artisans provides a whole range of training exercises that will help you become familiar with how Flink operates and ease you over time into more complex topics such as time and state management. These exercises (and possible solutions) are available on GitHub, so you can easily clone the project and use Maven to build it:
-<code>bash
-git clone https://github.com/dataArtisans/flink-training-exercises.git
-cd flink-training-exercises
-mvn clean package
-</code>
-This should take a couple of minutes, depending on the speed of your connection — Maven will download all the required dependencies. If everything goes as expected and the build is successful, you are on the right track!</p>
-
-<h2>Bootstrapping your own Flink project</h2>
-
-<p>Getting started from an existing project is the easiest way to make your first steps in application development with Flink, sure. But what if you want to create your own project from scratch at some point? Flink provides Maven archetypes to generate Maven projects for both Java and Scala applications. To create a quickstart Java project as a basis for your Flink application, for instance, run the following command:</p>
-
-<pre><code class="bash">mvn archetype:generate \
--DarchetypeGroupId=org.apache.flink \
--DarchetypeArtifactId=flink-quickstart-java \
--DarchetypeVersion=1.7.0
-</code></pre>
-
-<p>The command above generates a Maven project for Flink 1.7.0 containing two classes: StreamingJob and BatchJob; that respectively provide the basic skeletons for a streaming and batch Flink program. You can adapt the parameters to match your version and naming preferences! We recommend that you import the project into your IDE of choice to get your hands on developing a runnable example. In case you are struggling with inspiration, you can get some hints in the Flink documentation.</p>
-
-<h2>Running and debugging your first Flink application</h2>
-
-<p>Although Flink is a distributed data processing system, it is easier to get started in a local environment, using just your machine. In a typical setting, you would have the master (JobManager) and workers (TaskManagers) running as separate JVM processes on separate machines; but Flink also includes a mode that allows you to execute applications within the same JVM as a multi-threaded process. This mode allows you to easily develop, debug and execute your Flink application within an IDE pretty much like any other Java or Scala project. To start your application, just run the main() method as you would normally!</p>
-
-<p><img src="/images/post/first_flink_application.png" alt="first_flink_application" /></p>
-
-<h2>Monitoring your Flink application</h2>
-
-<p>If you are wondering what is happening under the hood of your running application, you can easily make use of the web interface that is bundled up in Flink to visualize and monitor it. To enable the interface for your local development, you will need to add a new dependency to your POM file:</p>
-
-<pre><code class="properties">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
-    &lt;artifactId&gt;flink-runtime-web_2.11&lt;/artifactId&gt;
-    &lt;version&gt;${flink.version}&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p>And explicitly create a local execution environment with the required configuration:</p>
-
-<pre><code class="java">import org.apache.flink.configuration.ConfigConstants;
-
-Configuration config = new Configuration();
-config.setBoolean(ConfigConstants.LOCAL_START_WEBSERVER, true);
-StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironment(config);
-</code></pre>
-
-<p>The Flink web interface should now be available under <a href="http://localhost:8081">http://localhost:8081</a> once you get your program running, and look somewhat like the images below. Remember to update the Maven project once you change the POM file, if you don’t have auto-import enabled in your IDE — this might lead to an error when you first try to access the web interface.</p>
-
-<p><img src="/images/post/flink_web_interface.png" alt="flink_web_interface" /></p>
-
-<p>Congratulations! You have just run your first Flink application in an IDE. A tutorial in the Flink documentation goes one step further and shows how to setup a local Flink cluster and submit a job just like submitting it to a remote cluster.</p>
-
-<p>We encourage you to have a look through the Flink documentation for further support or more detailed information. If at any point you feel lost or have any questions: our community is very active on Stack Overflow, and you can also reach out to the developers using the Mailing List. The data Artisans Standard training goes through the training exercises in more detail, so if you would prefer to get some personal guidance, you can find more about future trainings and locations here. We are looking forward to your next adventures with Flink!flri</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Flink Forward China 2018 Slides]]></title>
-    <link href="http://untitled-life.github.io/blog/2018/12/23/flink-forward-china-2018-slides/"/>
-    <updated>2018-12-23T11:06:47+08:00</updated>
-    <id>http://untitled-life.github.io/blog/2018/12/23/flink-forward-china-2018-slides</id>
-    <content type="html"><![CDATA[<blockquote><p>人生由淡淡的悲伤和淡淡的幸福组成，在小小的期待、偶尔的兴奋和沉默的失望中度过每一天，然后带着一种想说却又说不出来的‘懂’，作最后的转身离开。 &ndash;龙应台 《目送》</p></blockquote>
-
-<!-- more -->
-
-
-<h1>主会场</h1>
-
-<ol>
-<li>【主会场01-Craig Russell】Apache Flink: 践行 Apache 之道：<a href="https://files.alicdn.com/tpsservice/b40e46ca0abcef3e3f12f7fe12c46f0a.pdf">https://files.alicdn.com/tpsservice/b40e46ca0abcef3e3f12f7fe12c46f0a.pdf</a></li>
-<li>【主会场02-周靖人】云上计算普惠科技：<a href="https://files.alicdn.com/tpsservice/9a90a15cc2666348aa7e2fef4846eea7.pdf">https://files.alicdn.com/tpsservice/9a90a15cc2666348aa7e2fef4846eea7.pdf</a></li>
-<li>【主会场03-蒋晓伟】Apache Flink® - Redefining Computation：<a href="https://files.alicdn.com/tpsservice/62fa5ebcd23ea0b8a956f2a06197b57a.pdf">https://files.alicdn.com/tpsservice/62fa5ebcd23ea0b8a956f2a06197b57a.pdf</a></li>
-<li>【主会场04-Stephan Ewen】Stream Processing takes on Everything：【Updating&hellip;】</li>
-<li>【主会场05-闵万里】城市级实时计算的力量：<a href="https://files.alicdn.com/tpsservice/5f3272c3212b77cd835ff020d9954480.pdf">https://files.alicdn.com/tpsservice/5f3272c3212b77cd835ff020d9954480.pdf</a></li>
-<li>【主会场06-罗李】滴滴实时计算平台架构与实践：<a href="https://files.alicdn.com/tpsservice/aca017af879a657ed0983b8f1cf4bbfd.pdf">https://files.alicdn.com/tpsservice/aca017af879a657ed0983b8f1cf4bbfd.pdf</a></li>
-</ol>
-
-
-<h1>分会场一</h1>
-
-<ol>
-<li>【分会场一01-钱正平】为并行图数据处理提供高层抽象／语言：<a href="https://files.alicdn.com/tpsservice/1f9799e34cd9ce22678b1ed13b71e615.pdf">https://files.alicdn.com/tpsservice/1f9799e34cd9ce22678b1ed13b71e615.pdf</a></li>
-<li>【分会场一02-秦江杰 / 孙金城】Simplify Machine Learning With Flink TableAPI：<a href="https://files.alicdn.com/tpsservice/69181d1fd85d15635a7fe64ebafbf140.pdf">https://files.alicdn.com/tpsservice/69181d1fd85d15635a7fe64ebafbf140.pdf</a></li>
-<li>【分会场一03-时金魁】Flink七武器及应用实战：<a href="https://files.alicdn.com/tpsservice/4346f13e6710d3faed35fa21976ce1cb.pdf">https://files.alicdn.com/tpsservice/4346f13e6710d3faed35fa21976ce1cb.pdf</a></li>
-<li>【分会场一04-崔星灿】快速融入Apache Flink开源社区：<a href="https://files.alicdn.com/tpsservice/981cfe593809cc08c11c5f0cee4d19cd.pdf">https://files.alicdn.com/tpsservice/981cfe593809cc08c11c5f0cee4d19cd.pdf</a></li>
-<li>【分会场一05-施晓罡 / 郑灿彬】基于Apache Flink的平台化构建及运维优化经验：<a href="https://files.alicdn.com/tpsservice/9bcc469feb3dcca4ea15226e70e23ed5.pdf">https://files.alicdn.com/tpsservice/9bcc469feb3dcca4ea15226e70e23ed5.pdf</a></li>
-</ol>
-
-
-<h1>分会场二</h1>
-
-<ol>
-<li>【分会场二01-Radu Tudoran】Real-Time AI in Huawei Cloud: Practicing with Streaming ML：<a href="https://files.alicdn.com/tpsservice/3d836d6366a800dc70f52a0ec0bb5bc5.pdf">https://files.alicdn.com/tpsservice/3d836d6366a800dc70f52a0ec0bb5bc5.pdf</a></li>
-<li>【分会场二02-Konstantin Knauf】Apache Flink® 1.7 and Beyond：【Updating&hellip;】</li>
-<li>【分会场二03-李峰】FLINK在大规模实时无效广告流量检测中的应用：<a href="https://files.alicdn.com/tpsservice/c429c9351675f89a56000489519135a8.pdf">https://files.alicdn.com/tpsservice/c429c9351675f89a56000489519135a8.pdf</a></li>
-<li>【分会场二04-Piotr Nowojsk】Flink Streaming SQL 2018：【Updating&hellip;】</li>
-<li>【分会场二05-孟文瑞 / 于淼】Uber 商业性能指标生成与管理：<a href="https://files.alicdn.com/tpsservice/9bf841f251392aedcbb7cc98c5d140fa.pdf">https://files.alicdn.com/tpsservice/9bf841f251392aedcbb7cc98c5d140fa.pdf</a></li>
-<li>【分会场二06-戴资力】Apache Flink 流式应用中状态的数据结构定义升级：【Updating&hellip;】</li>
-</ol>
-
-
-<h1>分会场三</h1>
-
-<ol>
-<li>【分会场三01-邹丹】Flink在字节跳动的实践：<a href="https://files.alicdn.com/tpsservice/6b7686e18135389a76e2a0e476b270ec.pdf">https://files.alicdn.com/tpsservice/6b7686e18135389a76e2a0e476b270ec.pdf</a></li>
-<li>【分会场三02-鞠⼤升】基于Flink的美团点评实时计算平台实践和应⽤：<a href="https://files.alicdn.com/tpsservice/d855dadbdeacb1d7bae82c2780a545b5.pdf">https://files.alicdn.com/tpsservice/d855dadbdeacb1d7bae82c2780a545b5.pdf</a></li>
-<li>【分会场三03-杨克特 / 伍翀】基于streaming构建统一的数据处理引擎的挑战与实践：<a href="https://files.alicdn.com/tpsservice/74235d95df4b7b3163a96615e0b61131.pdf">https://files.alicdn.com/tpsservice/74235d95df4b7b3163a96615e0b61131.pdf</a></li>
-<li>【分会场三05-李钰 / 唐云】Flink中的两类新型状态存储：<a href="https://files.alicdn.com/tpsservice/1df9ccb8a7b6b2782a558d3c32d40c19.pdf">https://files.alicdn.com/tpsservice/1df9ccb8a7b6b2782a558d3c32d40c19.pdf</a></li>
-</ol>
-
-
-<h1>分会场四</h1>
-
-<ol>
-<li>【分会场四01-王绍翾 / 章剑锋】Challenges and Opportunities of Apache Flink® Ecosystem：<a href="https://files.alicdn.com/tpsservice/6122ed352e520aae78a22ed19657d150.pdf">https://files.alicdn.com/tpsservice/6122ed352e520aae78a22ed19657d150.pdf</a></li>
-<li>【分会场四02-翟佳 / 郭斯杰】使⽤Flink和Pulsar进⾏批流⼀体弹性计算：<a href="https://files.alicdn.com/tpsservice/36a600d88492560d8f33c86ce9e3f746.pdf">https://files.alicdn.com/tpsservice/36a600d88492560d8f33c86ce9e3f746.pdf</a></li>
-<li>【分会场四03-滕昱】为流处理世界重新设计的存储：<a href="https://files.alicdn.com/tpsservice/8c72901db4a4bda83e33d35b8e6d0ecd.pdf">https://files.alicdn.com/tpsservice/8c72901db4a4bda83e33d35b8e6d0ecd.pdf</a></li>
-<li>【分会场三04-杨旭】Alink：基于Apache Flink的算法平台：<a href="https://files.alicdn.com/tpsservice/23c67b6682c7d74339af7c53fccac429.pdf">https://files.alicdn.com/tpsservice/23c67b6682c7d74339af7c53fccac429.pdf</a></li>
-<li>【分会场四06-徐骁】Apache Flink 和 Elasticsearch 助⼒实时 OLAP 平台：<a href="https://files.alicdn.com/tpsservice/44558decf0f39980283107647d1e5755.pdf">https://files.alicdn.com/tpsservice/44558decf0f39980283107647d1e5755.pdf</a></li>
-</ol>
-
-
-<h1>分会场五</h1>
-
-<ol>
-<li>【分会场五01-姜春宇】以标准推动开源技术在行业的落地：<a href="https://files.alicdn.com/tpsservice/13039399808974a7c40be0c5d671061e.pdf">https://files.alicdn.com/tpsservice/13039399808974a7c40be0c5d671061e.pdf</a></li>
-<li>【分会场五03-陈华曦】基于Apache Flink的搜索处理平台：<a href="https://files.alicdn.com/tpsservice/8dab3c208f8044a26937a7bd7aed3c3d.pdf">https://files.alicdn.com/tpsservice/8dab3c208f8044a26937a7bd7aed3c3d.pdf</a></li>
-<li>【分会场五05-倪春恩】Apache Kylin:大数据OLAP利器：<a href="https://files.alicdn.com/tpsservice/4a21d431d914e85b0edced063dbc40ff.pdf">https://files.alicdn.com/tpsservice/4a21d431d914e85b0edced063dbc40ff.pdf</a></li>
-<li>【分会场五06-李剑】Flink在阿里巴巴电商业务中的应用：<a href="https://files.alicdn.com/tpsservice/badd0c8d32c9008d95addc0a28f1eb11.pdf">https://files.alicdn.com/tpsservice/badd0c8d32c9008d95addc0a28f1eb11.pdf</a></li>
-</ol>
-
 ]]></content>
   </entry>
   

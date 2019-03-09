@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://untitled-life.github.io/blog/2019/03/09/3-differences-between-savepoints-and-checkpoints-in-apache-flink/</loc>
+<lastmod>2019-03-09T19:48:36+08:00</lastmod>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/2019/03/09/5-baby-steps-to-develop-a-flink-application/</loc>
+<lastmod>2019-03-09T19:39:10+08:00</lastmod>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/2019/03/09/stream-processing-an-introduction-to-event-time-in-apache-flink/</loc>
+<lastmod>2019-03-09T19:30:43+08:00</lastmod>
+</url>
+<url>
 <loc>http://untitled-life.github.io/blog/2019/03/09/4-characteristics-of-timers-in-apache-flink-to-keep-in-mind/</loc>
 <lastmod>2019-03-09T16:23:32+08:00</lastmod>
 </url>
