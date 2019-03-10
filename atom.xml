@@ -4,7 +4,7 @@
   <title><![CDATA[Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2019-03-09T19:57:40+08:00</updated>
+  <updated>2019-03-10T16:16:24+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -12,6 +12,358 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Guide of Hive Performance Optimization]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/10/the-guide-of-hive-performance-optimization/"/>
+    <updated>2019-03-10T15:55:54+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/10/the-guide-of-hive-performance-optimization</id>
+    <content type="html"><![CDATA[<blockquote><p>人生无常，每一次相聚都可能是最后一次啊！ &ndash;龙应台</p></blockquote>
+
+<!-- more -->
+
+
+<h1>Hive是什么</h1>
+
+<p>关于Hive的定义，想必大家都都听过或看过一些。为了让之前没有接触过大数据的同学方便了解，这里也将给一个简单的定义：Hive 是一个基于 Hadoop 构建的开源数据仓库系统，我们使用它来查询和分析存储在 Hadoop 文件中的大型数据集。此外，通过使用 Hive，我们可以在 Hadoop 中处理结构化和半结构化数据。换句话说，Hive 是一个数据仓库基础设施，便于查询和管理驻留在分布式存储系统中的大型数据集。它提供了一种类 SQL 的查询语言 HiveQL（Hive Query Language）查询数据的方法。 此外，编译器在内部将 HiveQL 语句转换为 MapReduce、Tez、Spark 等作业。进一步提交给 Hadoop 框架执行。</p>
+
+<h1>Hive的存在价值</h1>
+
+<p>随着 Hadoop MapReduce 的出现，极大的简化大数据编程的难度，使得普通程序员也能从事开发大数据编程。但在生产活动中经常要对大数据计算分析是从事商务智能行业（BI）的工程师，他们通常使用 SQL 语言进行大数据统计及分析工作，而 Mapreduce 编程是有一定的门槛，如果每次都采用 MapReduce 开发计算分析任务，一是成本较高，二是效率太低，那么有没有更简单的办法，可以直接通过 SQL 在大数据平台下运行进行统计分析？有的，答案之一就是 Hive。</p>
+
+<p>Hive 主要用于数据查询，统计和分析，提高开发人员的工作效率。Hive 通过内置函数将 SQL 语句生成 DAG（有向无环图），再让 Mapreduce 计算处理。从而得到我们想要的统计结果。而且在处理具有挑战性的复杂分析处理和数据格式时，极大的简化了开发难度。</p>
+
+<h1>Hive架构</h1>
+
+<p>本文的中心是关于Hive性能优化，但是在开始之前，了解下Hive在Hadoop生态中的位置及Hive的基础架构有助于对后面性能优化部分的理解。</p>
+
+<h2>Hive在Hadoop生态的位置</h2>
+
+<p><img src="http://untitled-life.github.io/images/post/hadoop_ecosystem.png" alt="hadoop_ecosystem" /></p>
+
+<h2>Hive架构</h2>
+
+<p><img src="http://untitled-life.github.io/images/post/hive_architecture.png" alt="hive_architecture" /></p>
+
+<h1>性能优化</h1>
+
+<p>大数据生态系统中的各种组件的构建都会重点考量一个问题：性能，Hive也不例外。好的性能不仅能节省资源，而且还能得到用户的满意。关于Hive的性能考量，主要包含以下四个方面：</p>
+
+<ul>
+<li>性能工具</li>
+<li>设计优化</li>
+<li>数据优化</li>
+<li>任务优化</li>
+</ul>
+
+
+<h2>性能工具</h2>
+
+<p>如果要进行Hive性能调优，首先需要判断是否有性能问题，Hive提供了多种工具帮助用户检查和判断查询的性能情况，其中比较常用的工具包括EXPLAIN和ANALYZE语句。除此之外，查询执行日志包含了非常多的信息，对性能问题的定位与解决也非常有帮助。</p>
+
+<h3>EXPLAIN</h3>
+
+<p>Hive通过EXPLAIN命令来显示查询的执行计划。语法如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">EXPLAIN</span> <span class="p">[</span><span class="n">FORMATTED</span><span class="o">|</span><span class="n">EXTENDED</span><span class="o">|</span><span class="n">DEPENDENCY</span><span class="o">|</span><span class="k">AUTHORIZATION</span><span class="p">]</span> <span class="n">hql_query</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>FORMATTED：以JSON格式返回查询计划</li>
+<li>EXTENDED：提供执行计划关于操作的额外的信息，如文件名</li>
+<li>DEPENDENCY：执行计划信息中包含依赖信息，如表、分区等</li>
+<li>AUTHORIZATION：执行计划信息中包含此查询需要授权的对象</li>
+</ul>
+
+
+<p>Hive查询会被转换成（这是一个有向无环图）阶段序列。这些阶段可能是mapper/reducer阶段，或者做metastore或文件系统的操作，如移动和重命名的阶段。 EXPLAIN的输出包括三个部分：</p>
+
+<ul>
+<li>查询的抽象语法树(<a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">AST</a>), Hive使用的是一个名为<a href="http://www.antlr.org/">ANTLR</a>的解析器生成器为HQL生成语法树。ANTLR简单概括就是牛X强大。</li>
+<li>执行计划的不同阶段之间的依赖关系</li>
+<li>每个阶段的详细描述</li>
+</ul>
+
+
+<p>每个阶段的描述信息包括一个关于操作符(operators)的序列，这些操作符还会关联一些元数据信息。元数据可能包括FilterOperator的筛选表达式、SelectOperator的选择表达式或FileSinkOperator的输出文件名。</p>
+
+<h3>ANALYSE</h3>
+
+<p>类似于Oracle的分析表，Hive中也提供了分析表和分区的功能，通过自动和手动分析Hive表，将Hive表的一些统计信息存储到元数据中。表和分区的统计信息主要包括：行数、文件数、原始数据大小、所占存储大小、最后一次操作时间等；</p>
+
+<h4>列统计</h4>
+
+<p>针对表中的列数，特定列数据的直方图，有多种方式可以实现。作为查询优化的一种方法，统计输入给优化器的代价函数，然后优化器比较不同的计划，并从中获取较优的计划。统计有时能够满足用户的查询，从而让用户，快速获取结果（需执行存储的统计信息，而不需要触发长时间的执行计划）</p>
+
+<h4>范围</h4>
+
+<p>Hive 现在支持的表和分区级别的统计， 这些统计会存在MetaStore中,统计项包括Number of Rows、Number of files、Size in Bytes、Number of Partitions等
+比如分区：</p>
+
+<h2>设计优化</h2>
+
+<p>设计优化主要包括分区表设计、分桶表设计、索引设计、倾斜/临时表设计等。下面分别对这四种设计进行介绍。</p>
+
+<h3>分区表设计</h3>
+
+<p>分区表设计是提高查询性能的最有效方法之一，尤其是在体量较大的表上。带有分区筛选的查询只从指定的分区(子目录)加载数据，大大减少了加载的数据量，节省IO、CPU等资源。除了极少量的静态维度表可以不适用分区，数据仓库原则上都应该是分区表。</p>
+
+<h3>分桶表设计</h3>
+
+<p>与分区表类似，分桶表在HDFS中将数据组织到单独的文件中。如果Join操作的判断条件是分桶字段，那Join的性能将会被大大提升。选择更好的桶列可以使桶表Join执行得更好。</p>
+
+<h3>索引设计</h3>
+
+<p>使用索引是关系数据库中性能调优的一种常见的实践手段。目前Hive也支持在表/分区上创建索引。Hive中的索引提供一个基于键的数据视图，并为某些操作(如WHERE、GROUP BY和JOIN)提供更好的数据访问。使用索引总是比使用全表扫描性能更好。在HQL中创建索引的命令非常简单，如下所示,详细请参考<a href="https://cwiki.apache.org/confluence/display/Hive/IndexDev">Hive官方文档</a>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">index_name</span> <span class="k">ON</span> <span class="k">TABLE</span> <span class="k">table_name</span> <span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">AS</span> <span class="s1">&#39;COMPACT&#39;</span> <span class="k">WITH</span> <span class="k">DEFERRED</span> <span class="n">REBUILD</span><span class="p">;</span>   
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>倾斜/临时表设计</h3>
+
+<p>除了使用常规的内部/外部或分区表之外，某些场景下我们还可以考虑使用倾斜或临时表，以获得更好的设计和性能。HQL支持创建一个特殊的表来组织倾斜的数据。倾斜表可以通过将这些倾斜的值自动分割到单独的文件或目录中来提高性能。结果，文件或分区文件夹的总数减少了。此外，查询可以快速有效地包含或忽略这些数据。下面是一个用来创建倾斜表的例子,详细请参考<a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-SkewedTables">Hive官方文档</a>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">table_name</span> <span class="p">(</span>
+</span><span class='line'>  <span class="n">dept_no</span> <span class="nb">int</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">dept_name</span> <span class="n">string</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="n">SKEWED</span> <span class="k">BY</span> <span class="p">(</span><span class="n">dept_no</span><span class="p">)</span> <span class="k">ON</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>数据优化</h2>
+
+<p>数据优化主要包括对数据文件格式、压缩和存储方面的性能改进。</p>
+
+<h3>数据文件格式</h3>
+
+<p>Hive支持的文件格式比价多，主要有TEXTFILE, SEQUENCEFILE, AVRO, RCFILE, ORC, and PARQUET。用户不仅可以在创建表时指定数据文件格式，还可以后期修改数据文件格式。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="p">...</span> <span class="n">STORE</span> <span class="k">AS</span> <span class="o">&lt;</span><span class="n">file_format</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="p">...</span> <span class="p">[</span><span class="n">PARTITION</span> <span class="n">partition_spec</span><span class="p">]</span> <span class="k">SET</span> <span class="n">FILEFORMAT</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一旦创建了以文本格式存储的表，我们就可以直接将文本数据加载到其中。要将文本数据加载到具有其他文件格式的表中，我们可以先将数据加载到存储格式为文本的表中，然后使用INSERT OVERWRITE/ into table…从中选择数据，然后将数据插入具有其他文件格式的表中。</p>
+
+<p>TEXT, SEQUENCE, and AVRO等面向行的文件存储格式虽然比较易于理解，但是缺陷也显而易见，如即使查询结果只包含一列，查询也必须读取完整的一行。为了解决这个问题，RCFILE、ORC、PARQUET 等行列混合文件存储方案诞生。</p>
+
+<p>根据所使用的技术栈，如果Hive是用于定义或处理数据的主要工具，建议使用ORC格式。如果您在数据生态系统中使用多种工具，那么PARQUET在适应性方面是更好的选择。</p>
+
+<h3>数据压缩</h3>
+
+<p>Hive中的压缩技术可以通过适当地压缩中间和最终输出数据，大大减少mappers和reducers之间的数据传输量，因此，查询将具有更好的性能。要压缩多个MapReduce作业之间生成的中间文件，我们需要在命令行会话或hive-site.xml文件中设置以下属性(默认为false):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="k">exec</span><span class="p">.</span><span class="n">compress</span><span class="p">.</span><span class="n">intermediate</span><span class="o">=</span><span class="k">true</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面列举了一些常用的数据压缩选项</p>
+
+<p>source/images/post/.png</p>
+
+<p><img src="http://untitled-life.github.io/images/post/data_compress_option.png" alt="data_compress_option" /></p>
+
+<p>常用的压缩命令如下(可以在hive- site.xml或者命令行设置)</p>
+
+<p><img src="http://untitled-life.github.io/images/post/data_compress_option_2.png" alt="data_compress_option_2" /></p>
+
+<h3>数据存储</h3>
+
+<p>数据根据使用频率可以简单分为冷热数据。如果我们能提高在热数据上的查询性能，其实整体的数据查询性能将有较大的改善。那么如何提高热数据的查询性能呢？其中一个方法就是增加数据的replication值，增大replication值在一定程度上会减少数据在集群节点之间的传输过程，进而提高性能。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>hdfs dfs -setrep -R -w <span class="m">4</span> /user/hive/warehouse/dwd.db/dwd_putong_profile_yay_private_question_a_d  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>任何事情都是有限度的，过多的冗余文件会使namenode的内存耗尽，特别是大量的小文件。Hadoop本身已经有一些解决方案，可以通过以下方式处理很多小文件问题:</p>
+
+<ul>
+<li>Hadoop Archive/HAR:对小文件进行打包归档</li>
+<li>数据采用SEQUENCEFILE格式进行存储，一定程度上可以将小文件压缩成大文件</li>
+<li>HDFS Federation支持多个namenode来管理更多的文件</li>
+<li>自己开发一个文件合并程序来合并HDFS中的小文件</li>
+</ul>
+
+
+<p>针对Hive的数据存储优化，可以设置下列参数来避免创建更多的小文件</p>
+
+<ul>
+<li>hive.merge.mapfiles: 将在仅使用map的作业结束时合并小文件</li>
+<li>hive.merge.mapredfiles: 在MapReduce作业结束时合并小文件</li>
+<li>hive.merge.size.per。定义作业结束时合并文件的大小</li>
+<li>hive.merge.smallfiles.avgsize: 触发文件合并的阈值</li>
+</ul>
+
+
+<h2>作业优化</h2>
+
+<p>作业优化主要关注运行模式、JVM 重用、作业并行和Join查询优化等方面。其中还会介绍下执行引擎和优化器相关的概念。</p>
+
+<h3>运行模式</h3>
+
+<p>大多数的Hive查询是需要hadoop集群来处理大数据的，不过，有时Hive的输入数据量是非常小的。在这种情况下，为查询执行任务的时间消耗可能会比实际job的执行时间要多的多，因此hive0.7版本后Hive开始支持任务执行选择本地模式(local mode)，即任务提交到本地机器处理。如此一来，对数据量比较小的操作，就可以在本地执行，这样要比提交任务到集群执行效率要快很多。本地模式的配置命令如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">set</span> <span class="n">hive</span><span class="p">.</span><span class="k">exec</span><span class="p">.</span><span class="k">mode</span><span class="p">.</span><span class="k">local</span><span class="p">.</span><span class="n">auto</span><span class="o">=</span><span class="k">true</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要注意是的执行本地模式需要满足几个条件：</p>
+
+<ul>
+<li>作业的总输入大小低于：hive.exec.mode.local.auto.inputbytes.max，默认为128MB</li>
+<li>map任务的总数小于：hive.exec.mode.local.auto.tasks.max，默认为4</li>
+<li>所需的reduce任务总数为1或0。</li>
+</ul>
+
+
+<h3>JVM 重用</h3>
+
+<p>默认情况下，Hadoop为每个map或reduce作业启动一个新的JVM，并行运行map或reduce任务。当在map或reduce作业是只运行几秒钟的轻量级作业时，JVM启动过程可能会带来很大的开销。Hadoop有一个重用JVM的选项，通过共享JVM来串行运行mapper/reducer，而不是并行运行。JVM重用适用于映射或减少同一作业中的任务。来自不同作业的任务总是在单独的JVM中运行。为了支持重用，我们可以使用以下属性为JVM重用设置单个作业的最大任务数。它的默认值是1。如果设置为-1，则没有限制:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">mapreduce</span><span class="p">.</span><span class="n">job</span><span class="p">.</span><span class="n">jvm</span><span class="p">.</span><span class="n">numtasks</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>作业并行</h3>
+
+<p>Hive查询通常被转换成许多按默认顺序执行的阶段。这些阶段并不总是相互依赖的。相反，它们可以并行运行，以减少整个作业的运行时间。我们可以通过以下设置启用此功能，并设置并行运行作业的预期数量。并行执行将提高集群利用率。如果集群的利用率已经非常高，那么并行执行对总体性能没有多大帮助。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="k">exec</span><span class="p">.</span><span class="n">parallel</span><span class="o">=</span><span class="k">true</span><span class="p">;</span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="k">exec</span><span class="p">.</span><span class="n">parallel</span><span class="p">.</span><span class="n">thread</span><span class="p">.</span><span class="nb">number</span><span class="o">=</span><span class="mi">16</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Join查询优化</h3>
+
+<p>Hive提供的多种类型的Join，每种Join类型的优化不太一样。</p>
+
+<h4>Reduce端Join</h4>
+
+<p>其实我们经常用的就是这种Join, 对于这种Join类型，我们需要确保数据量大的表位于Join的最右边。</p>
+
+<h4>Map join</h4>
+
+<p>当其中一个用于Join的表小到足以完全装入内存时，使用Map Join的速度会更快，缺点就是受表大小的限制。设置Map Join的相关命令如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">auto</span><span class="p">.</span><span class="k">convert</span><span class="p">.</span><span class="k">join</span><span class="o">=</span><span class="k">true</span><span class="p">;</span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">mapjoin</span><span class="p">.</span><span class="n">smalltable</span><span class="p">.</span><span class="n">filesize</span><span class="o">=</span><span class="mi">600000000</span><span class="p">;</span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">auto</span><span class="p">.</span><span class="k">convert</span><span class="p">.</span><span class="k">join</span><span class="p">.</span><span class="n">noconditionaltask</span><span class="o">=</span><span class="k">true</span><span class="p">;</span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">auto</span><span class="p">.</span><span class="k">convert</span><span class="p">.</span><span class="k">join</span><span class="p">.</span><span class="n">noconditionaltask</span><span class="p">.</span><span class="k">size</span><span class="o">=</span><span class="mi">10000000</span><span class="p">;</span> 
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启用Join类型自动转换后，Hive将自动检查较小的表文件大小是否大于 Hive .mapjoin.smalltable 指定的值。如果文件大小小于此阈值，则尝试将Join的类型转换为Map Join。</p>
+
+<h4>Bucket Map Join</h4>
+
+<p>和Map Join类似，只不过用于分桶表而已。需要注意的是：在 Bucket Map Join中，所有连接表都必须是桶表和桶列上的连接。此外，较大表中的桶号必须是较小表中的桶号的倍数。</p>
+
+<h3>Skew Join</h3>
+
+<p>在处理分布高度不均匀的数据时，数据倾斜可能以这样一种方式发生，即少数计算节点必须处理大量计算。如果发生数据倾斜，则通知Hive进行适当的优化:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">optimize</span><span class="p">.</span><span class="n">skewjoin</span><span class="o">=</span><span class="k">true</span><span class="p">;</span>   <span class="c1">--If there is data skew in join, set it to true. Default is false.</span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">skewjoin</span><span class="p">.</span><span class="k">key</span><span class="o">=</span><span class="mi">100000</span><span class="p">;</span>      <span class="c1">--This is the default value. If the number of key is bigger than --this, the new keys will send to the other unused reducers. </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>任务执行引擎</h3>
+
+<p>Hive支持在不同的引擎上运行作业。引擎的选择也会影响整体性能。然而，与其他设置相比，这是一个更大的变化。可选的执行引擎包括mr、spark、tez</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">execution</span><span class="p">.</span><span class="n">engine</span><span class="o">=&lt;</span><span class="n">engine</span><span class="o">&gt;</span><span class="p">;</span> <span class="c1">-- &lt;engine&gt; = mr|tez|spark</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>优化器</h3>
+
+<p>与关系数据库类似，Hive在提交最终执行之前会生成并优化每个查询的逻辑和物理执行计划。目前Hive中存在两种主要的优化器：即向量化优化(Vectorization optimization)和基于成本的优化(Cost-based optimization)。</p>
+
+<h4>Vectorization optimization</h4>
+
+<p>应用场景主要是在同时处理大量数据时，而不是逐行处理数据，详细内容参考<a href="https://cwiki.apache.org/confluence/display/Hive/Vectorized+Query+Execution%EF%BC%8C%E5%BC%80%E5%90%AF%E7%9A%84%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B">https://cwiki.apache.org/confluence/display/Hive/Vectorized+Query+Execution%EF%BC%8C%E5%BC%80%E5%90%AF%E7%9A%84%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">vectorized</span><span class="p">.</span><span class="n">execution</span><span class="p">.</span><span class="n">enabled</span><span class="o">=</span><span class="k">true</span><span class="p">;</span>  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Cost-based optimization(CBO)</h4>
+
+<p>CBO是通过<a href="https://calcite.apache.org/">Apache Calcite</a>实现的。Hive CBO通过检查查询成本(由ANALYZE语句或metastore本身收集)来生成高效的执行计划，最终减少查询执行时间和资源利用率。要使用CBO，设置以下属性:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">cbo</span><span class="p">.</span><span class="n">enable</span><span class="o">=</span><span class="k">true</span><span class="p">;</span> <span class="c1">-- default true after v0.14.0</span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">compute</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="k">using</span><span class="p">.</span><span class="n">stats</span><span class="o">=</span><span class="k">true</span><span class="p">;</span> <span class="c1">-- default false </span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">stats</span><span class="p">.</span><span class="k">fetch</span><span class="p">.</span><span class="k">column</span><span class="p">.</span><span class="n">stats</span><span class="o">=</span><span class="k">true</span><span class="p">;</span> <span class="c1">-- default false </span>
+</span><span class='line'><span class="k">SET</span> <span class="n">hive</span><span class="p">.</span><span class="n">stats</span><span class="p">.</span><span class="k">fetch</span><span class="p">.</span><span class="n">partition</span><span class="p">.</span><span class="n">stats</span><span class="o">=</span><span class="k">true</span><span class="p">;</span> <span class="c1">-- default true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+            显示信息
+            <a href='http://untitled-life.github.io/blog/2019/03/10/the-guide-of-hive-performance-optimization/'>http://untitled-life.github.io/blog/2019/03/10/the-guide-of-hive-performance-optimization/</a><br/>
+            written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+            &nbsp;posted at <a href='http://untitled-life.github.io'>http://untitled-life.github.io</a>
+            </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hive MetaStore 数据库表结构]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/10/the-table-structure-and-relation-in-hive-metastore/"/>
+    <updated>2019-03-10T15:50:57+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/10/the-table-structure-and-relation-in-hive-metastore</id>
+    <content type="html"><![CDATA[<blockquote><p>他的坐着，其实是奔波，他的热闹，其实是孤独，他，和他的政治对少们，所开的车，没有”R”挡，更缺空挡。 &ndash;龙应台 《目送》</p></blockquote>
+
+<!-- more -->
+
+
+<p><img src="http://untitled-life.github.io/images/post/HiveMetaStore.jpg" alt="HiveMetaStore" /></p>
+
+<p class='post-footer'>
+            显示信息
+            <a href='http://untitled-life.github.io/blog/2019/03/10/the-table-structure-and-relation-in-hive-metastore/'>http://untitled-life.github.io/blog/2019/03/10/the-table-structure-and-relation-in-hive-metastore/</a><br/>
+            written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+            &nbsp;posted at <a href='http://untitled-life.github.io'>http://untitled-life.github.io</a>
+            </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Apache Flink中保存点和检查点之间的差异(译文)]]></title>
@@ -1950,7 +2302,6 @@ Full compatibility means schemas are backward <strong>and</strong> forward compa
 <li>寂寞的感觉，像沙尘暴的漫天黑尘，以鬼魅的速度，细微地渗透地包围过来。 &ndash;龙应台 《目送》</li>
 <li>空荡荡的街，只有我，和那生了我的女人。 &ndash;龙应台 《目送》</li>
 <li>有一天搭计程车，跳过马路上一个大坑，受惊之余，这个嚼槟榔的司机往窗外狠狠吐了一口痰，骂了一句：“操国民党！” 这个司机完全错了！他可以“操”养工出，可以“操”市政府，但路上一个坑，与国民党这个政党何干？他的咒骂完全不公平。可是，或许有一个可能的解释：他骂党，因为他不知道政府哪一个部门负责哪一桩事，路上有坑的时候，他不知道该找谁负责；换句话说，当他要争权利的时候（譬如行路无坑的权利），他并不知道有什么管道可循。 &ndash;龙应台 《野火集》</li>
-<li>人生无常，每一次相聚都可能是最后一次啊！ &ndash;龙应台</li>
 <li>文化不过是代代累积沉淀的习惯和信念，渗透在生活的实践中。 &ndash;龙应台 《文化，是什么？》</li>
 <li>我知道他爱我，但是，爱，不等于喜欢，爱，不等于认识。爱，其实是很多不喜欢、不认识、不沟通的借口。因为有爱，所以正常的沟通仿佛可以不必了。 &ndash;龙应台 《亲爱的安德烈》</li>
 <li>日后的人生旅程，当然还是要漂萍离散──人生哪有恒长的厮守？但是三年的海上旗语，如星辰凝望，如月色满怀，我还奢求什么呢？ &ndash;龙应台 《亲爱的安德烈》</li>
@@ -1962,7 +2313,6 @@ Full compatibility means schemas are backward <strong>and</strong> forward compa
 <li>越往南走，到意大利，文化越倾向于以族群家庭，人情为中心，讲关系，讲感情，越往北走，到北欧，文化越倾向于所谓公民社会，以社群，公益为中心，讲公平，讲纪律。南人认为北人没有感情而呆板，北人则认为南人没有效率而且腐败。 &ndash;龙应台 《百年思索》</li>
 <li>任何一个国家的建立，都需要一个“假想敌”来激起自己内部的凝聚力。对欧盟而言，挟其经济军事优势而四出“侵略”张牙舞爪而又绝对“没有文化”的美国正是一个理想的“暴秦”，可以促进欧盟各国的团结。 &ndash;龙应台 《百年思索》</li>
 <li>我们自己心里的痛苦不会因为这个世界有更大或者更“值得”的痛苦而变得微不足道；它对别人也许微不足道，对我们自己，每一次痛苦都是绝对的，真实的，很重大，很痛。 &ndash;龙应台</li>
-<li>他的坐着，其实是奔波，他的热闹，其实是孤独，他，和他的政治对少们，所开的车，没有”R”挡，更缺空挡。 &ndash;龙应台 《目送》</li>
 <li>要渺小的个人负起责任是不公平的，个人只是”制度”这巨大机器中一个看都看不见的螺丝钉，机器在制造杀人的武器还是救人的工具，不是螺丝钉的责任。 &ndash;龙应台 《人在欧洲》</li>
 <li>奢侈，到底是一种被物质撑得过饱的漠视，还是把一切都看的都理所当然的无聊？ &ndash;龙应台 《目送》</li>
 <li>华安爸爸说，很骄傲地，”别忘记，我是世界上第一个抱他的人。”能够这样见证宇宙的蕴吐，能够这样拥抱鲜活的生命，是多厚的恩泽啊！却有男人推拒这样的特权。 &ndash;龙应台 《孩子你慢慢来》</li>

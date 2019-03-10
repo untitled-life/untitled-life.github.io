@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Table | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/table/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2019-03-10T16:16:24+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hive MetaStore 数据库表结构]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/10/the-table-structure-and-relation-in-hive-metastore/"/>
+    <updated>2019-03-10T15:50:57+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/10/the-table-structure-and-relation-in-hive-metastore</id>
+    <content type="html"><![CDATA[<blockquote><p>他的坐着，其实是奔波，他的热闹，其实是孤独，他，和他的政治对少们，所开的车，没有”R”挡，更缺空挡。 &ndash;龙应台 《目送》</p></blockquote>
+
+<!-- more -->
+
+
+<p><img src="/images/post/HiveMetaStore.jpg" alt="HiveMetaStore" /></p>
+]]></content>
+  </entry>
+  
+</feed>
