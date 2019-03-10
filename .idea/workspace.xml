@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a11aaa0-b8e5-4660-948a-bd79219abc91" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/3-diff-1.jpeg" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/Event-time-FFT-Icon-Event-time.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/Event-time-FFT-Icon-london-underground.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/flink-application-1.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/flink-application-2.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/flink-application.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/HiveMetaStore.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/data_compress_option.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/data_compress_option_2.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/hadoop_ecosystem.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/hive_architecture.png" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" afterPath="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
+      <change beforePath="$PROJECT_DIR$/source/_posts/2019-03-09-5-baby-steps-to-develop-a-flink-application.markdown" afterPath="$PROJECT_DIR$/source/_posts/2019-03-09-5-baby-steps-to-develop-a-flink-application.markdown" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,13 +20,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="2019-03-09-3-differences-between-savepoints-and-checkpoints-in-apache-flink.markdown" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-09-3-differences-between-savepoints-and-checkpoints-in-apache-flink.markdown">
+      <file leaf-file-name="2019-03-10-the-guide-of-hive-performance-optimization.markdown" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-10-the-guide-of-hive-performance-optimization.markdown">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="FIRST">
-              <first_editor relative-caret-position="310">
-                <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-                <folding />
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="88">
+                <caret line="258" column="0" lean-forward="true" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
+                <folding>
+                  <marker date="1552205765989" expanded="true" signature="3396:3491" ph="CREATE TABLE... table_name" />
+                  <marker date="1552205765989" expanded="true" signature="3666:3705" ph="CREATE TABLE... STORE" />
+                  <marker date="1552205765989" expanded="true" signature="3718:3775" ph="ALTER TABLE ...... " />
+                </folding>
               </first_editor>
               <second_editor />
             </state>
@@ -51,6 +55,7 @@
       <find>不是因为要跟别人比成就</find>
       <find>书</find>
       <find>不是因为我要你跟别人比成绩</find>
+      <find>程序运行之后，Flink web接口现</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -104,9 +109,11 @@
         <option value="$PROJECT_DIR$/source/_posts/2019-03-09-4-characteristics-of-timers-in-apache-flink-to-keep-in-mind.markdown" />
         <option value="$PROJECT_DIR$/source/about/index.markdown" />
         <option value="$PROJECT_DIR$/source/_posts/2019-03-09-stream-processing-an-introduction-to-event-time-in-apache-flink.markdown" />
-        <option value="$PROJECT_DIR$/source/_posts/2019-03-09-5-baby-steps-to-develop-a-flink-application.markdown" />
-        <option value="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
         <option value="$PROJECT_DIR$/source/_posts/2019-03-09-3-differences-between-savepoints-and-checkpoints-in-apache-flink.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2019-03-09-5-baby-steps-to-develop-a-flink-application.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2019-03-10-the-table-structure-and-relation-in-hive-metastore.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2019-03-10-the-guide-of-hive-performance-optimization.markdown" />
       </list>
     </option>
   </component>
@@ -117,9 +124,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="35" />
     <option name="y" value="23" />
-    <option name="width" value="1405" />
+    <option name="width" value="1440" />
     <option name="height" value="811" />
   </component>
   <component name="ProjectView">
@@ -137,8 +143,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -174,7 +180,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -186,16 +192,16 @@
     <property name="SearchEverywhereHistoryKey" value="RESTfulWebAPIs.jpg&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/images/books/RESTfulWebAPIs.jpg&#10;2018-11-29-data-serialization-and-evolution.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2018-11-29-data-serialization-and-evolution.markdown" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/source/_includes/custom/asides" />
-      <recent name="$PROJECT_DIR$/plugins" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/source/images/post" />
       <recent name="$PROJECT_DIR$/source/images/about" />
       <recent name="$PROJECT_DIR$/source/images/books" />
       <recent name="$PROJECT_DIR$/source/images" />
       <recent name="$PROJECT_DIR$/source/resources" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/source/_includes/custom/asides" />
+      <recent name="$PROJECT_DIR$/plugins" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -328,12 +334,14 @@
       <workItem from="1551068285408" duration="1579000" />
       <workItem from="1552114431851" duration="809000" />
       <workItem from="1552118676921" duration="2185000" />
-      <workItem from="1552129197414" duration="1501000" />
+      <workItem from="1552129197414" duration="1579000" />
+      <workItem from="1552132582406" duration="119000" />
+      <workItem from="1552204169771" duration="1654000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22470000" />
+    <option name="totallyTimeSpent" value="24321000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="811" extended-state="6" />
@@ -345,9 +353,9 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.63741004" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.52517986" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20389049" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22766571" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Tail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -431,20 +439,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/_includes/custom/asides/category_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="10" lean-forward="false" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.themes/classic/source/_includes/post/author.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.themes/classic/source/_includes/post/categories.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -771,12 +765,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="152">
             <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="13" />
-            <folding>
-              <marker date="1543903514239" expanded="true" signature="2451:2624" ph="{&quot;name&quot;: &quot;user&quot;...}" />
-              <marker date="1543903514239" expanded="true" signature="2528:2622" ph="[...]" />
-              <marker date="1543903514239" expanded="true" signature="4633:4877" ph="{&quot;name&quot;: &quot;user&quot;...}" />
-              <marker date="1543903514239" expanded="true" signature="4710:4875" ph="[...]" />
-            </folding>
           </first_editor>
           <second_editor />
         </state>
@@ -787,42 +775,6 @@
         <state split_layout="FIRST">
           <first_editor relative-caret-position="-119">
             <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-09-4-steps-to-get-your-flink-application-ready-for-production.markdown">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="208">
-            <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="114" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-09-5-baby-steps-to-develop-a-flink-application.markdown">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="199">
-            <caret line="47" column="159" lean-forward="false" selection-start-line="47" selection-start-column="159" selection-end-line="47" selection-end-column="159" />
-            <folding>
-              <marker date="1552132067008" expanded="true" signature="2287:2433" ph="..." />
-            </folding>
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="329">
-            <caret line="259" column="0" lean-forward="false" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -833,7 +785,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="354">
             <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="68" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -842,9 +793,66 @@
     <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-09-3-differences-between-savepoints-and-checkpoints-in-apache-flink.markdown">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="310">
-            <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <first_editor relative-caret-position="215">
+            <caret line="31" column="16" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-09-5-baby-steps-to-develop-a-flink-application.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="37">
+            <caret line="63" column="19" lean-forward="false" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-09-4-steps-to-get-your-flink-application-ready-for-production.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="184">
+            <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="114" />
             <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="104">
+            <caret line="248" column="0" lean-forward="false" selection-start-line="248" selection-start-column="0" selection-end-line="248" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-10-the-table-structure-and-relation-in-hive-metastore.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="190">
+            <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="48" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2019-03-10-the-guide-of-hive-performance-optimization.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="88">
+            <caret line="258" column="0" lean-forward="true" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
+            <folding>
+              <marker date="1552205765989" expanded="true" signature="3396:3491" ph="CREATE TABLE... table_name" />
+              <marker date="1552205765989" expanded="true" signature="3666:3705" ph="CREATE TABLE... STORE" />
+              <marker date="1552205765989" expanded="true" signature="3718:3775" ph="ALTER TABLE ...... " />
+            </folding>
           </first_editor>
           <second_editor />
         </state>

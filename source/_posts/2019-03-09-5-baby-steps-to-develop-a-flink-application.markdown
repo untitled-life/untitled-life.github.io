@@ -72,7 +72,7 @@ StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironme
 ...
 ```
 
-在程序运行之后，Flink web接口现在应该可以在http://localhost:8081下使用，看起来有点像下面的图像。记住，更改POM文件后要更新Maven项目，如果您的IDE中没有启用自动导入——这可能会在您第一次尝试访问web界面时导致错误。
+在程序运行之后，Flink web接口现在应该可以在[本地环境](http://localhost:8081) 下使用，看起来有点像下面的图像。记住，更改POM文件后要更新Maven项目，如果您的IDE中没有启用自动导入——这可能会在您第一次尝试访问web界面时导致错误。
 
 ![flink-application-1](/images/post/flink-application-1.png)
 
