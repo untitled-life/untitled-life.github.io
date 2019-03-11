@@ -4,7 +4,7 @@
   <title><![CDATA[Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2019-03-10T16:16:24+08:00</updated>
+  <updated>2019-03-11T11:33:26+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Apache Spark Resource Management and YARN App Models]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/11/apache-spark-resource-management-and-yarn-app-models/"/>
+    <updated>2019-03-11T11:16:23+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/11/apache-spark-resource-management-and-yarn-app-models</id>
+    <content type="html"><![CDATA[<blockquote><p>爱情能持久多半是因为两人有一种“互利”的基础。 &ndash;龙应台 《目送》</p></blockquote>
+
+<!-- more -->
+
+
+<p>原文地址:<a href="https://blog.cloudera.com/blog/2014/05/apache-spark-resource-management-and-yarn-app-models/">https://blog.cloudera.com/blog/2014/05/apache-spark-resource-management-and-yarn-app-models/</a></p>
+
+<p><strong>A concise look at the differences between how Spark and MapReduce manage cluster resources under YARN</strong></p>
+
+<p>The most popular Apache YARN application after MapReduce itself is Apache Spark. At Cloudera, we have worked hard to stabilize Spark-on-YARN (<a href="https://issues.apache.org/jira/browse/SPARK-1101">SPARK-1101</a>), and CDH 5.0.0 added support for Spark on YARN clusters.</p>
+
+<p>In this post, you’ll learn about the differences between the Spark and MapReduce architectures, why you should care, and how they run on the YARN cluster ResourceManager.</p>
+
+<h1>Applications</h1>
+
+<p>In MapReduce, the highest-level unit of computation is a job. The system loads the data, applies a map function, shuffles it, applies a reduce function, and writes it back out to persistent storage. Spark has a similar job concept (although a job can consist of more stages than just a single map and reduce), but it also has a higher-level construct called an “application,” which can run multiple jobs, in sequence or in parallel.</p>
+
+<p><img src="http://untitled-life.github.io/images/post/spark-yarn-f1.png" alt="spark-yarn" /></p>
+
+<h2>Spark application architecture</h2>
+
+<p>For those familiar with the Spark API, an application corresponds to an instance of the SparkContext class. An application can be used for a single batch job, an interactive session with multiple jobs spaced apart, or a long-lived server continually satisfying requests. Unlike MapReduce, an application will have processes, called Executors, running on the cluster on its behalf even when it’s not running any jobs. This approach enables data storage in memory for quick access, as well as lightning-fast task startup time.</p>
+
+<h1>Executors</h1>
+
+<p>MapReduce runs each task in its own process. When a task completes, the process goes away. In Spark, many tasks can run concurrently in a single process, and this process sticks around for the lifetime of the Spark application, even when no jobs are running.</p>
+
+<p>The advantage of this model, as mentioned above, is speed: Tasks can start up very quickly and process in-memory data. The disadvantage is coarser-grained resource management. As the number of executors for an app is fixed and each executor has a fixed allotment of resources, an app takes up the same amount of resources for the full duration that it’s running. (When YARN supports <a href="https://issues.apache.org/jira/browse/YARN-1197">container resizing</a>, we plan to take advantage of it in Spark to acquire and give back resources dynamically.)</p>
+
+<h1>Active Driver</h1>
+
+<p>To manage the job flow and schedule tasks Spark relies on an active driver process. Typically, this driver process is the same as the client process used to initiate the job, although in YARN mode (covered later), the driver can run on the cluster. In contrast, in MapReduce, the client process can go away and the job can continue running. In Hadoop 1.x, the JobTracker was responsible for task scheduling, and in Hadoop 2.x, the MapReduce application master took over this responsibility.</p>
+
+<h1>Pluggable Resource Management</h1>
+
+<p>Spark supports pluggable cluster management. The cluster manager is responsible for starting executor processes. Spark application writers do not need to worry about what cluster manager against which Spark is running.</p>
+
+<p>Spark supports YARN, Mesos, and its own “standalone” cluster manager. All three of these frameworks have two components. A central master service (the YARN ResourceManager, Mesos master, or Spark standalone master) decides which applications get to run executor processes, as well as where and when they get to run. A slave service running on every node (the YARN NodeManager, Mesos slave, or Spark standalone slave) actually starts the executor processes. It may also monitor their liveliness and resource consumption.</p>
+
+<h1>Why Run on YARN?</h1>
+
+<p>Using YARN as Spark’s cluster manager confers a few benefits over Spark standalone and Mesos:</p>
+
+<ul>
+<li>YARN allows you to dynamically share and centrally configure the same pool of cluster resources between all frameworks that run on YARN. You can throw your entire cluster at a MapReduce job, then use some of it on an Impala query and the rest on Spark application, without any changes in configuration.</li>
+<li>You can take advantage of <a href="http://hadoop.apache.org/docs/r2.4.0/hadoop-yarn/hadoop-yarn-site/FairScheduler.html">all the features of YARN schedulers</a> for categorizing, isolating, and prioritizing workloads.</li>
+<li>Spark standalone mode requires each application to run an executor on every node in the cluster, whereas with YARN, you choose the number of executors to use.</li>
+<li>Finally, YARN is the only cluster manager for Spark that supports security. With YARN, Spark can run against Kerberized Hadoop clusters and uses secure authentication between its processes.</li>
+</ul>
+
+
+<h1>Running on YARN</h1>
+
+<p>When running Spark on YARN, each Spark executor runs as a YARN container. Where MapReduce schedules a container and fires up a JVM for each task, Spark hosts multiple tasks within the same container. This approach enables several orders of magnitude faster task startup time.</p>
+
+<p>Spark supports two modes for running on YARN, “yarn-cluster” mode and “yarn-client” mode.  Broadly, yarn-cluster mode makes sense for production jobs, while yarn-client mode makes sense for interactive and debugging uses where you want to see your application’s output immediately.</p>
+
+<p>Understanding the difference requires an understanding of YARN’s Application Master concept. In YARN, each application instance has an Application Master process, which is the first container started for that application. The application is responsible for requesting resources from the ResourceManager, and, when allocated them, telling NodeManagers to start containers on its behalf. Application Masters obviate the need for an active client — the process starting the application can go away and coordination continues from a process managed by YARN running on the cluster.</p>
+
+<p>In yarn-cluster mode, the driver runs in the Application Master. This means that the same process is responsible for both driving the application and requesting resources from YARN, and this process runs inside a YARN container. The client that starts the app doesn’t need to stick around for its entire lifetime.</p>
+
+<p><img src="http://untitled-life.github.io/images/post/spark-yarn-f31.png" alt="spark-yarn-f31" /></p>
+
+<p>The yarn-cluster mode, however, is not well suited to using Spark interactively. Spark applications that require user input, like spark-shell and PySpark, need the Spark driver to run inside the client process that initiates the Spark application. In yarn-client mode, the Application Master is merely present to request executor containers from YARN. The client communicates with those containers to schedule work after they start:</p>
+
+<p><img src="http://untitled-life.github.io/images/post/spark-yarn-f22.png" alt="spark-yarn-f22" /></p>
+
+<p>This table offers a concise list of differences between these modes:</p>
+
+<p><img src="http://untitled-life.github.io/images/post/spark-yarn-table.png" alt="spark-yarn-table" /></p>
+
+<h1>Key Concepts in Summary</h1>
+
+<ul>
+<li><strong>Application</strong>: This may be a single job, a sequence of jobs, a long-running service issuing new commands as needed or an interactive exploration session.</li>
+<li><strong>Spark Driver</strong>: The Spark driver is the process running the spark context (which represents the application session). This driver is responsible for converting the application to a directed graph of individual steps to execute on the cluster. There is one driver per application.</li>
+<li><strong>Spark Application Master</strong>: The Spark Application Master is responsible for negotiating resource requests made by the driver with YARN and finding a suitable set of hosts/containers in which to run the Spark applications. There is one Application Master per application.</li>
+<li><strong>Spark Executor</strong>: A single JVM instance on a node that serves a single Spark application. An executor runs multiple tasks over its lifetime, and multiple tasks concurrently. A node may have several Spark executors and there are many nodes running Spark Executors for each client application.</li>
+<li><strong>Spark Task</strong>: A Spark Task represents a unit of work on a partition of a distributed dataset. <p class='post-footer'>
+          显示信息
+          <a href='http://untitled-life.github.io/blog/2019/03/11/apache-spark-resource-management-and-yarn-app-models/'><a href="http://untitled-life.github.io/blog/2019/03/11/apache-spark-resource-management-and-yarn-app-models/">http://untitled-life.github.io/blog/2019/03/11/apache-spark-resource-management-and-yarn-app-models/</a></a><br/>
+          written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+          &nbsp;posted at <a href='http://untitled-life.github.io'><a href="http://untitled-life.github.io">http://untitled-life.github.io</a></a>
+          </p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hadoop YARN 深入浅出]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/11/untangling-apache-hadoop-yarn/"/>
+    <updated>2019-03-11T11:12:59+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/11/untangling-apache-hadoop-yarn</id>
+    <content type="html"><![CDATA[<blockquote><p>寂寞的感觉，像沙尘暴的漫天黑尘，以鬼魅的速度，细微地渗透地包围过来。 &ndash;龙应台 《目送》</p></blockquote>
+
+<!-- more -->
+
+
+
+
+<p class='post-footer'>
+            显示信息
+            <a href='http://untitled-life.github.io/blog/2019/03/11/untangling-apache-hadoop-yarn/'>http://untitled-life.github.io/blog/2019/03/11/untangling-apache-hadoop-yarn/</a><br/>
+            written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+            &nbsp;posted at <a href='http://untitled-life.github.io'>http://untitled-life.github.io</a>
+            </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Guide of Hive Performance Optimization]]></title>
@@ -2295,11 +2411,9 @@ Full compatibility means schemas are backward <strong>and</strong> forward compa
 <li>人对自然、对生命过度地暴虐、亵渎之后，他究竟还有什么依靠呢？如果勇敢领袖们的心里深埋着仇恨和野心的地雷，敏感的阿拉伯芥又救得了几个我们疼爱的孩子呢？ &ndash;龙应台 《目送》</li>
 <li>曾经相信过海枯石烂作为永恒不灭的表征，后来知道，原来海其实很容易枯，石，原来很容易烂。雨水，很可能不再来，沧海，不会再成桑田。原来，自己脚下所踩的地球，很容易被毁灭。海枯石烂的永恒，原来不存在。 &ndash;龙应台 《相信不相信》</li>
 <li>在我们整个成长的过程里，谁，教过我们怎么去面对痛苦、挫折、失败？它不在我们的家庭教育里，它不在小学、中学、大学的教科书或课程里，它更不在我们的大众传播里。家庭教育、学校教育、社会教育只教我们如何去追求卓越，从砍樱桃的华盛顿、悬梁刺股的孙敬、苏秦到平地起楼的比尔·盖茨，都是成功的典范。即便是谈到失败，目的只是要你绝地反攻，再度追求出人头地，譬如越王勾践的卧薪尝胆，洗雪耻辱，譬如哪个战败的国王看见蜘蛛如何结网，不屈不挠。 &ndash;龙应台 《目送》</li>
-<li>爱情能持久多半是因为两人有一种“互利”的基础。 &ndash;龙应台 《目送》</li>
 <li>一个爱思考的人行走千里只为追究一个形而上的问题；舆马争饮，座无虚席，只为听一场关于道德的辩论；渡口不以政治人物命名，却纪念两个著书立言的人……什么样的社会才允许这样的事情？那必定是一个认识文明、尊重文明的社会，八百年前的中国。 &ndash;龙应台 《人在欧洲》</li>
 <li>理想主义者要有品格，才能不被权力腐化；理想主义者要有能力，才能将理想转化为实践。 &ndash;龙应台 《目送》</li>
 <li>【做官的原则】一个健康的社会必须是“官不聊生”。权力越大，责任越大，所以可能辜负的人越多。有权的人要慎重，要谦卑，要随时随地检查自己。文人可以快意恩仇，官员却必须忍辱负重。 &ndash;龙应台</li>
-<li>寂寞的感觉，像沙尘暴的漫天黑尘，以鬼魅的速度，细微地渗透地包围过来。 &ndash;龙应台 《目送》</li>
 <li>空荡荡的街，只有我，和那生了我的女人。 &ndash;龙应台 《目送》</li>
 <li>有一天搭计程车，跳过马路上一个大坑，受惊之余，这个嚼槟榔的司机往窗外狠狠吐了一口痰，骂了一句：“操国民党！” 这个司机完全错了！他可以“操”养工出，可以“操”市政府，但路上一个坑，与国民党这个政党何干？他的咒骂完全不公平。可是，或许有一个可能的解释：他骂党，因为他不知道政府哪一个部门负责哪一桩事，路上有坑的时候，他不知道该找谁负责；换句话说，当他要争权利的时候（譬如行路无坑的权利），他并不知道有什么管道可循。 &ndash;龙应台 《野火集》</li>
 <li>文化不过是代代累积沉淀的习惯和信念，渗透在生活的实践中。 &ndash;龙应台 《文化，是什么？》</li>

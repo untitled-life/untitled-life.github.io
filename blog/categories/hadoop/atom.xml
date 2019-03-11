@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hadoop | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/hadoop/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2019-03-11T11:33:26+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hadoop YARN 深入浅出]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/11/untangling-apache-hadoop-yarn/"/>
+    <updated>2019-03-11T11:12:59+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/11/untangling-apache-hadoop-yarn</id>
+    <content type="html"><![CDATA[<blockquote><p>寂寞的感觉，像沙尘暴的漫天黑尘，以鬼魅的速度，细微地渗透地包围过来。 &ndash;龙应台 《目送》</p></blockquote>
+
+<!-- more -->
+
+
+
+]]></content>
+  </entry>
+  
+</feed>

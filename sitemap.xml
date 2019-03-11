@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://untitled-life.github.io/blog/2019/03/11/apache-spark-resource-management-and-yarn-app-models/</loc>
+<lastmod>2019-03-11T11:16:23+08:00</lastmod>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/2019/03/11/untangling-apache-hadoop-yarn/</loc>
+<lastmod>2019-03-11T11:12:59+08:00</lastmod>
+</url>
+<url>
 <loc>http://untitled-life.github.io/blog/2019/03/10/the-guide-of-hive-performance-optimization/</loc>
 <lastmod>2019-03-10T15:55:54+08:00</lastmod>
 </url>
@@ -161,6 +169,18 @@
 </url>
 <url>
 <loc>http://untitled-life.github.io/blog/categories/optimization/</loc>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/categories/hadoop/</loc>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/categories/yarn/</loc>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/categories/cluster/</loc>
+</url>
+<url>
+<loc>http://untitled-life.github.io/blog/categories/model/</loc>
 </url>
 <url>
 <loc>http://untitled-life.github.io/resources/%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E4%BB%8A%E5%A4%A9%20%E6%98%8E%E5%A4%A9%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%9C%89%E6%98%A8%E5%A4%A9.pdf</loc>
