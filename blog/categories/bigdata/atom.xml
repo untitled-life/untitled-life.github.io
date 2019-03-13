@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Bigdata | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/bigdata/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2019-03-13T15:20:51+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Lambda Architecture for Big Data Systems]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/03/13/the-lambda-architecture-for-big-data-systems/"/>
+    <updated>2019-03-13T15:14:52+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/03/13/the-lambda-architecture-for-big-data-systems</id>
+    <content type="html"><![CDATA[<blockquote><p>某些人在某一个特定的时机热烈主张某一特定的正义，其中隐藏着深不可测的不正义。 &ndash;龙应台
+&lt;!- more &ndash;></p></blockquote>
+
+<h1>the lambda architecture</h1>
+
+<p><img src="/images/post/the_lambda_architecture_for_big_data_systems.png" alt="the_lambda_architecture_for_big_data_systems" /></p>
+
+<h1>reference</h1>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Lambda_architecture">https://en.wikipedia.org/wiki/Lambda_architecture</a></li>
+<li><a href="https://mapr.com/resources/stream-processing-mapr/">https://mapr.com/resources/stream-processing-mapr/</a></li>
+<li><a href="http://lambda-architecture.net/">http://lambda-architecture.net/</a></li>
+<li><a href="https://towardsdatascience.com/lambda-architecture-how-to-build-a-big-data-pipeline-part-1-8b56075e83fe">https://towardsdatascience.com/lambda-architecture-how-to-build-a-big-data-pipeline-part-1-8b56075e83fe</a></li>
+<li><a href="https://medium.com/walmartlabs/how-we-built-a-data-pipeline-with-lambda-architecture-using-spark-spark-streaming-9d3b4b4555d3">https://medium.com/walmartlabs/how-we-built-a-data-pipeline-with-lambda-architecture-using-spark-spark-streaming-9d3b4b4555d3</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
