@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lambda-architecture | Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/blog/categories/lambda-architecture/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2019-03-13T15:20:51+08:00</updated>
+  <updated>2019-03-13T15:22:58+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -18,8 +18,10 @@
     <link href="http://untitled-life.github.io/blog/2019/03/13/the-lambda-architecture-for-big-data-systems/"/>
     <updated>2019-03-13T15:14:52+08:00</updated>
     <id>http://untitled-life.github.io/blog/2019/03/13/the-lambda-architecture-for-big-data-systems</id>
-    <content type="html"><![CDATA[<blockquote><p>某些人在某一个特定的时机热烈主张某一特定的正义，其中隐藏着深不可测的不正义。 &ndash;龙应台
-&lt;!- more &ndash;></p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>某些人在某一个特定的时机热烈主张某一特定的正义，其中隐藏着深不可测的不正义。 &ndash;龙应台</p></blockquote>
+
+<!-- more -->
+
 
 <h1>the lambda architecture</h1>
 
