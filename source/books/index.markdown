@@ -24,7 +24,12 @@ footer: true
 
 ## 2109年03月书单
 
-
 ![RESTful—Web-APIs](/images/books/RESTfulWebAPIs.jpg)
 
 ![Apache Hive Essentials](/images/books/ApacheHiveEssentials.jpg)
+
+![docker_tech_practice](/images/books/docker_tech_practice.jpg)
+
+## 2109年04月书单
+
+![Hands-On-Machine-Learning-with-Scikit-Learn-and-TensorFlow.jpg](/images/books/Hands-On-Machine-Learning-with-Scikit-Learn-and-TensorFlow.jpg)

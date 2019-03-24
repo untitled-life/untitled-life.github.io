@@ -6,7 +6,7 @@ comments: true
 categories: Lambda-Architecture BigData
 ---
 > 某些人在某一个特定的时机热烈主张某一特定的正义，其中隐藏着深不可测的不正义。 --龙应台
-<!- more -->
+<!-- more -->
 
 # the lambda architecture
 
