@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://untitled-life.github.io/blog/2019/04/27/a-li-ji-zhu-101/</loc>
+<lastmod>2019-04-27T14:42:53+08:00</lastmod>
+</url>
+<url>
 <loc>http://untitled-life.github.io/blog/2019/04/27/questioning-the-lambda-architecture/</loc>
 <lastmod>2019-04-27T14:09:55+08:00</lastmod>
 </url>
@@ -92,16 +96,16 @@
 <loc>http://untitled-life.github.io/404.html</loc>
 </url>
 <url>
-<loc>http://untitled-life.github.io/archives/</loc>
+<loc>http://untitled-life.github.io/blog/</loc>
 </url>
 <url>
-<loc>http://untitled-life.github.io/blog/</loc>
+<loc>http://untitled-life.github.io/</loc>
 </url>
 <url>
 <loc>http://untitled-life.github.io/blog/archives/</loc>
 </url>
 <url>
-<loc>http://untitled-life.github.io/</loc>
+<loc>http://untitled-life.github.io/archives/</loc>
 </url>
 <url>
 <loc>http://untitled-life.github.io/about/</loc>
@@ -200,13 +204,18 @@
 <loc>http://untitled-life.github.io/blog/categories/architecture/</loc>
 </url>
 <url>
-<loc>http://untitled-life.github.io/posts/2/</loc>
-</url>
-<url>
-<loc>http://untitled-life.github.io/posts/3/</loc>
+<loc>http://untitled-life.github.io/blog/categories/ji-zhu/</loc>
 </url>
 <url>
 <loc>http://untitled-life.github.io/resources/%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E4%BB%8A%E5%A4%A9%20%E6%98%8E%E5%A4%A9%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%9C%89%E6%98%A8%E5%A4%A9.pdf</loc>
 <lastmod>2018-12-23T15:34:24+08:00</lastmod>
+</url>
+<url>
+<loc>http://untitled-life.github.io/files/AliTech101_RD.pdf</loc>
+<lastmod>2019-04-25T22:43:25+08:00</lastmod>
+</url>
+<url>
+<loc>http://untitled-life.github.io/files/AliTech101_Algorithms.pdf</loc>
+<lastmod>2019-04-25T22:43:19+08:00</lastmod>
 </url>
 </urlset>
