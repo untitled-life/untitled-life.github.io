@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a11aaa0-b8e5-4660-948a-bd79219abc91" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/kafka-log.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/kafka_partitioned_log.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/kappa-architecture.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/lambda-archtecture.png" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" afterPath="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
     </list>
@@ -18,12 +14,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="2019-04-27-questioning-the-lambda-architecture.markdown" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/_posts/2019-04-27-questioning-the-lambda-architecture.markdown">
+      <file leaf-file-name="2019-04-27-a-li-ji-zhu-101.markdown" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="294">
-                <caret line="109" column="4" lean-forward="false" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
+              <first_editor relative-caret-position="102">
+                <caret line="10" column="56" lean-forward="false" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -110,8 +106,9 @@
         <option value="$PROJECT_DIR$/source/_posts/2019-03-11-apache-spark-resource-management-and-yarn-app-models.markdown" />
         <option value="$PROJECT_DIR$/source/_posts/2019-03-13-the-lambda-architecture-for-big-data-systems.markdown" />
         <option value="$PROJECT_DIR$/source/books/index.markdown" />
-        <option value="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
         <option value="$PROJECT_DIR$/source/_posts/2019-04-27-questioning-the-lambda-architecture.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown" />
       </list>
     </option>
   </component>
@@ -123,7 +120,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
-    <option name="width" value="1011" />
+    <option name="width" value="581" />
     <option name="height" value="811" />
   </component>
   <component name="ProjectView">
@@ -157,20 +154,7 @@
               <item name="untitled-life" type="b2602c69:ProjectViewProjectNode" />
               <item name="untitled-life" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="_posts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="untitled-life" type="b2602c69:ProjectViewProjectNode" />
-              <item name="untitled-life" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="untitled-life" type="b2602c69:ProjectViewProjectNode" />
-              <item name="untitled-life" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-              <item name="post" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -187,19 +171,19 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="2019-04-27-questioning-the-lambda-architecture.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-04-27-questioning-the-lambda-architecture.markdown&#10;RESTfulWebAPIs.jpg&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/images/books/RESTfulWebAPIs.jpg&#10;2018-11-29-data-serialization-and-evolution.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2018-11-29-data-serialization-and-evolution.markdown" />
+    <property name="SearchEverywhereHistoryKey" value="2019-04-27-a-li-ji-zhu-101.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown&#10;2019-04-27-questioning-the-lambda-architecture.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-04-27-questioning-the-lambda-architecture.markdown&#10;RESTfulWebAPIs.jpg&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/images/books/RESTfulWebAPIs.jpg&#10;2018-11-29-data-serialization-and-evolution.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2018-11-29-data-serialization-and-evolution.markdown" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/source/_includes/custom/asides" />
+      <recent name="$PROJECT_DIR$/plugins" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/source/files" />
       <recent name="$PROJECT_DIR$/source/images/post" />
       <recent name="$PROJECT_DIR$/source/images/books" />
       <recent name="$PROJECT_DIR$/source/images/about" />
       <recent name="$PROJECT_DIR$/source/images" />
-      <recent name="$PROJECT_DIR$/source/resources" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/source/_includes/custom/asides" />
-      <recent name="$PROJECT_DIR$/plugins" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -340,15 +324,17 @@
       <workItem from="1552461216354" duration="587000" />
       <workItem from="1552467174251" duration="107000" />
       <workItem from="1553428009498" duration="180000" />
-      <workItem from="1556345296650" duration="1037000" />
+      <workItem from="1556345296650" duration="1170000" />
+      <workItem from="1556347355201" duration="916000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28024000" />
+    <option name="totallyTimeSpent" value="29073000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="811" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -357,9 +343,9 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38417265" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40863308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24567723" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17146975" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Tail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -443,13 +429,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/archives/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/_includes/navigation.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -779,23 +758,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="152">
             <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-            <folding>
-              <marker date="1543903514239" expanded="true" signature="2451:2624" ph="{&quot;name&quot;: &quot;user&quot;...}" />
-              <marker date="1543903514239" expanded="true" signature="2528:2622" ph="[...]" />
-              <marker date="1543903514239" expanded="true" signature="4633:4877" ph="{&quot;name&quot;: &quot;user&quot;...}" />
-              <marker date="1543903514239" expanded="true" signature="4710:4875" ph="[...]" />
-            </folding>
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="138">
-            <caret line="250" column="140" lean-forward="false" selection-start-line="250" selection-start-column="140" selection-end-line="250" selection-end-column="140" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -806,7 +768,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="88">
             <caret line="258" column="0" lean-forward="true" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -817,7 +778,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="190">
             <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="48" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -828,7 +788,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="171">
             <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -839,7 +798,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="-1">
             <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -850,7 +808,6 @@
         <state split_layout="FIRST">
           <first_editor relative-caret-position="-508">
             <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="13" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -861,6 +818,16 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="252">
             <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="50" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="168">
+            <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="13" />
             <folding />
           </first_editor>
           <second_editor />
@@ -870,8 +837,19 @@
     <entry file="file://$PROJECT_DIR$/source/_posts/2019-04-27-questioning-the-lambda-architecture.markdown">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="294">
-            <caret line="109" column="4" lean-forward="false" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
+          <first_editor relative-caret-position="83">
+            <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="58" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="102">
+            <caret line="10" column="56" lean-forward="false" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
             <folding />
           </first_editor>
           <second_editor />
