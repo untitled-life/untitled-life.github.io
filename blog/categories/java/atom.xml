@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2019-05-10T12:56:06+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Java虚拟机常用参数]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/05/10/jvm-parameters/"/>
+    <updated>2019-05-10T12:34:21+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/05/10/jvm-parameters</id>
+    <content type="html"><![CDATA[<blockquote><p>孩子，我要求你读书用功，不是因为我要你跟别人比成绩，而是因为，我希望你将来会拥有选择的权利，选择有意义、有时间的工作，而不是被迫谋生。当你的工作在你心中有意义，你就有成就感。当你的工作给你时间，不剥夺你的生活，你就有尊严。成就感和尊严，给你快乐。 &ndash;龙应台 《亲爱的安德烈》</p></blockquote>
+
+<!-- more -->
+
+
+<p>虽然JVM帮我们管理着内存(内存分配和垃圾回收)，但是JVM不是那么完美，很多时候还是会出现内存泄露和溢出等问题,当这些情况发生时，首先是排查定位问题，然后进行解决。在解决问题时，经常会使用JVM参数来设置JVM的属性，下面我们列举了常用的JVM参数，方便大家理解和使用。</p>
+
+<p><strong>-Xms20M</strong></p>
+
+<p>设置JVM启动内存的最小值为20M。</p>
+
+<p><strong>-Xmx20M</strong></p>
+
+<p>设置JVM启动内存的最大值为20M，如果将-Xmx和-Xms的值设置为一样，可以避免JVM内存自动扩展。</p>
+
+<p><strong>-verbose:gc</strong></p>
+
+<p>输出虚拟机中GC的详细情况</p>
+
+<p><strong>-Xss128k</strong></p>
+
+<p>设置虚拟机栈的大小为128k</p>
+
+<p><strong>-Xoss128k</strong></p>
+
+<p>设置本地方法栈的大小为128k。不过HotSpot并不区分虚拟机栈和本地方法栈，因此对于HotSpot来说这个参数是无效的</p>
+
+<p><strong>-XX:PermSize=10M</strong></p>
+
+<p>设置JVM初始分配的永久代的容量，仅限Java7及之前版本</p>
+
+<p><strong>-XX:MaxPermSize=10M</strong></p>
+
+<p>设置JVM允许分配的永久代的最大容量，仅限Java7及之前版本</p>
+
+<p><strong>-Xnoclassgc</strong></p>
+
+<p>关闭JVM对类的垃圾回收</p>
+
+<p><strong>-XX:+TraceClassLoading</strong></p>
+
+<p>查看类的加载信息</p>
+
+<p><strong>-XX:+TraceClassUnLoading</strong></p>
+
+<p>查看类的卸载信息</p>
+
+<p><strong>-XX:NewRatio=4</strong></p>
+
+<p>设置年轻代：老年代的大小比值为1：4，这意味着年轻代占整个堆的1/5</p>
+
+<p><strong>-XX:SurvivorRatio=8</strong></p>
+
+<p>设置2个Survivor区：1个Eden区的大小比值为2:8，这意味着Survivor区占整个年轻代的1/5，这个参数默认为8</p>
+
+<p><strong>-Xmn20M</strong></p>
+
+<p>设置年轻代的大小为20M</p>
+
+<p><strong>-XX:+HeapDumpOnOutOfMemoryError</strong></p>
+
+<p>表示可以让虚拟机在出现内存溢出异常时Dump出当前的堆内存转储快照</p>
+
+<p><strong>-XX:+UseG1GC</strong></p>
+
+<p>设置JVM使用G1垃圾收集器</p>
+
+<p><strong>-XX:+PrintGCDetails</strong></p>
+
+<p>表示在控制台上打印出GC具体细节</p>
+
+<p><strong>-XX:+PrintGC</strong></p>
+
+<p>表示在控制台上打印出GC信息</p>
+
+<p><strong>-XX:PretenureSizeThreshold=3145728</strong></p>
+
+<p>表示对象大于3145728（3M）时直接进入老年代分配，这里只能以字节作为单位</p>
+
+<p><strong>-XX:MaxTenuringThreshold=1</strong></p>
+
+<p>表示对象年龄大于1，自动进入老年代,默认值是15</p>
+
+<p><strong>-XX:CompileThreshold=1000</strong></p>
+
+<p>表示一个方法被调用1000次之后，会被认为是热点代码，并触发即时编译</p>
+
+<p><strong>-XX:+PrintHeapAtGC</strong></p>
+
+<p>表示可以看到每次GC前后堆内存布局</p>
+
+<p><strong>-XX:+PrintTLAB</strong></p>
+
+<p>表示可以看到TLAB的使用情况</p>
+
+<p><strong>-XX:+UseSpining</strong></p>
+
+<p>开启自旋锁</p>
+
+<p><strong>-XX:PreBlockSpin</strong></p>
+
+<p>更改自旋锁的自旋次数，使用这个参数必须先开启自旋锁</p>
+]]></content>
+  </entry>
+  
+</feed>
