@@ -33,3 +33,7 @@ footer: true
 ## 2109年04月书单
 
 ![Hands-On-Machine-Learning-with-Scikit-Learn-and-TensorFlow.jpg](/images/books/Hands-On-Machine-Learning-with-Scikit-Learn-and-TensorFlow.jpg)
+
+## 2109年06月书单
+
+![Java性能权威指南](/images/books/Java性能权威指南.jpg)
