@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Gc | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/gc/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2019-06-21T15:53:59+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JVM垃圾收集器]]></title>
+    <link href="http://untitled-life.github.io/blog/2019/06/21/jvm-garbage-collectors/"/>
+    <updated>2019-06-21T15:46:50+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2019/06/21/jvm-garbage-collectors</id>
+    <content type="html"><![CDATA[<blockquote><p>我们都知道了，母亲要回的”家“，不是任何一个有邮递区号、邮差找得到的家，她要回的”家“，不是空间，而是一段时光。 &ndash;龙应台 《目送》</p></blockquote>
+
+<!-- more -->
+
+
+<h2>各代收集器列表</h2>
+
+<p><img src="/images/post/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8.png" alt="JVM垃圾回收器" /></p>
+
+<h2>收集器组合</h2>
+
+<p><img src="/images/post/collectors_combinations.png" alt="JVM垃圾回收器组合" /></p>
+]]></content>
+  </entry>
+  
+</feed>
