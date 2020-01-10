@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a11aaa0-b8e5-4660-948a-bd79219abc91" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/Spring_Transaction_Propagation.pdf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/Propagation类型.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/Hive性能优化指南-v10-20200110_112914.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/JDK命令行工具介绍-v2-20200110_113005.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/关于Lambda架构的疑问-v1-20200110_112950.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/浅析Spark推测执行机制-v8-20200110_112940.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/浅析数仓数据管理-v1-20200110_113016.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/深入浅出 Hadoop YARN-v1-20200110_112902.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/files/监控Apache Flink应用程序(入门)-v4-20200110_112927.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/source/images/post/differences-between-savepoints-and-checkpoints-in-flink.jpeg" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" afterPath="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
+      <change beforePath="$PROJECT_DIR$/source/_posts/2020-01-10-spring-transaction-propagation.markdown" afterPath="$PROJECT_DIR$/source/_posts/2020-01-10-spring-transaction-propagation.markdown" />
+      <change beforePath="$PROJECT_DIR$/source/files/Spring_Transaction_Propagation.pdf" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,21 +23,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="2020-01-10-spring-transaction-propagation.markdown" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/_posts/2020-01-10-spring-transaction-propagation.markdown">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="228">
-                <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-                <folding />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -116,8 +110,10 @@
         <option value="$PROJECT_DIR$/source/_posts/2019-05-10-jvm-parameters.markdown" />
         <option value="$PROJECT_DIR$/source/_posts/2019-06-21-jvm-garbage-collectors.markdown" />
         <option value="$PROJECT_DIR$/source/books/index.markdown" />
-        <option value="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
         <option value="$PROJECT_DIR$/source/_posts/2020-01-10-spring-transaction-propagation.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2020-01-10-differences-between-savepoints-and-checkpoints-in-flink.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown" />
+        <option value="$PROJECT_DIR$/source/_posts/2020-01-10-shen-ru-qian-chu-hadoop-yarn.markdown" />
       </list>
     </option>
   </component>
@@ -129,7 +125,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
-    <option name="width" value="2560" />
+    <option name="width" value="1891" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
@@ -172,13 +168,14 @@
               <item name="untitled-life" type="b2602c69:ProjectViewProjectNode" />
               <item name="untitled-life" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="files" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="untitled-life" type="b2602c69:ProjectViewProjectNode" />
               <item name="untitled-life" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="images" type="462c0819:PsiDirectoryNode" />
+              <item name="post" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -192,7 +189,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="2020-01-10-spring-transaction-propagation.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2020-01-10-spring-transaction-propagation.markdown&#10;2019-06-21-jvm-garbage-collectors.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-06-21-jvm-garbage-collectors.markdown&#10;2019-05-10-jvm-parameters.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-05-10-jvm-parameters.markdown&#10;2019-04-27-a-li-ji-zhu-101.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown&#10;2019-04-27-questioning-the-lambda-architecture.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-04-27-questioning-the-lambda-architecture.markdown&#10;RESTfulWebAPIs.jpg&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/images/books/RESTfulWebAPIs.jpg&#10;2018-11-29-data-serialization-and-evolution.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2018-11-29-data-serialization-and-evolution.markdown" />
+    <property name="SearchEverywhereHistoryKey" value="2020-01-10-shen-ru-qian-chu-hadoop-yarn.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2020-01-10-shen-ru-qian-chu-hadoop-yarn.markdown&#10;2020-01-10-differences-between-savepoints-and-checkpoints-in-flink.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2020-01-10-differences-between-savepoints-and-checkpoints-in-flink.markdown&#10;2020-01-10-spring-transaction-propagation.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2020-01-10-spring-transaction-propagation.markdown&#10;2019-06-21-jvm-garbage-collectors.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-06-21-jvm-garbage-collectors.markdown&#10;2019-05-10-jvm-parameters.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-05-10-jvm-parameters.markdown&#10;2019-04-27-a-li-ji-zhu-101.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown&#10;2019-04-27-questioning-the-lambda-architecture.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2019-04-27-questioning-the-lambda-architecture.markdown&#10;RESTfulWebAPIs.jpg&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/images/books/RESTfulWebAPIs.jpg&#10;2018-11-29-data-serialization-and-evolution.markdown&#9;FILE&#9;file:///Users/caolei/IdeaProjects/untitled-life/source/_posts/2018-11-29-data-serialization-and-evolution.markdown" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -355,16 +352,15 @@
       <workItem from="1562810368854" duration="149000" />
       <workItem from="1566355588414" duration="725000" />
       <workItem from="1566364787067" duration="5000" />
-      <workItem from="1578622966154" duration="2327000" />
+      <workItem from="1578622966154" duration="3452000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35612000" />
+    <option name="totallyTimeSpent" value="36737000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1417" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -373,10 +369,10 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09126365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24102964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Run with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24659728" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3358687" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Tail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -463,20 +459,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/_includes/post/author.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/_includes/custom/asides/about.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/_includes/post/sharing.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -837,33 +819,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="285">
-            <caret line="15" column="41" lean-forward="false" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/_posts/2018-12-23-flink-forward-china-2018-slides.markdown">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SECOND">
           <first_editor relative-caret-position="456">
             <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="228">
-            <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="73" />
             <folding />
           </first_editor>
           <second_editor />
@@ -885,6 +845,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2019-04-27-a-li-ji-zhu-101.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="228">
+            <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="73" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/source/_posts/2019-06-21-jvm-garbage-collectors.markdown">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -896,11 +867,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2020-01-10-differences-between-savepoints-and-checkpoints-in-flink.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="561">
+            <caret line="31" column="57" lean-forward="false" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/source/_posts/2020-01-10-spring-transaction-propagation.markdown">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="228">
-            <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <first_editor relative-caret-position="133">
+            <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="9" selection-end-column="13" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2018-11-26-hello-life.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="665">
+            <caret line="35" column="161" lean-forward="false" selection-start-line="35" selection-start-column="161" selection-end-line="35" selection-end-column="161" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/_posts/2020-01-10-shen-ru-qian-chu-hadoop-yarn.markdown">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="399">
+            <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
             <folding />
           </first_editor>
           <second_editor />

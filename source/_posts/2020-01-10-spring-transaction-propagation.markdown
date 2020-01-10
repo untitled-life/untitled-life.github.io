@@ -9,4 +9,6 @@ categories: Spring Transaction
 
 <!-- more -->
 
-![Spring Transaction Propagation](/files/Spring_Transaction_Propagation.pdf)
+## Spring Transaction Propagation
+[Spring Transaction Propagation(提取码: v7w3)](https://pan.baidu.com/s/1vQe0su7bUHBWprMjY36KpQ)
+
