@@ -4,7 +4,7 @@
   <title><![CDATA[Hackx's Blog]]></title>
   <link href="http://untitled-life.github.io/atom.xml" rel="self"/>
   <link href="http://untitled-life.github.io/"/>
-  <updated>2020-01-10T11:12:24+08:00</updated>
+  <updated>2020-01-10T11:37:31+08:00</updated>
   <id>http://untitled-life.github.io/</id>
   <author>
     <name><![CDATA[Mike Cao]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Differences-between-savepoints-and-checkpoints-in-flink]]></title>
+    <link href="http://untitled-life.github.io/blog/2020/01/10/differences-between-savepoints-and-checkpoints-in-flink/"/>
+    <updated>2020-01-10T11:20:15+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2020/01/10/differences-between-savepoints-and-checkpoints-in-flink</id>
+    <content type="html"><![CDATA[<blockquote><p>人生就是如此，你以为已经从一个漩涡逃离，其实另外一个漩涡就在你的脚下。用力蹬一脚，就进去了。所以，不需要对生活太用力，心会带着我们去该去的地方。 &ndash;龙应台</p></blockquote>
+
+<!-- more -->
+
+
+<p>原文地址：<a href="https://www.da-platform.com/blog/differences-between-savepoints-and-checkpoints-in-flink">https://www.da-platform.com/blog/differences-between-savepoints-and-checkpoints-in-flink</a></p>
+
+<h1>保存点和检查点分别是什么?</h1>
+
+<p>Apache Flink保存点是一种允许对整个流应用程序进行“时间点”快照的特性。此快照包含关于您在输入中的位置的信息，以及关于源的所有位置和整个应用程序状态的信息。我们可以在不停止应用程序的情况下通过使用Chandy-Lamport算法的变体获得整个状态的一致快照。保存点包含两个主要元素:</p>
+
+<ol>
+<li>首先，保存点包括一个目录，目录中包含(通常较大的)二进制文件，这些文件表示流应用程序在检查点/保存点处的整个状态</li>
+<li>一个(相对较小的)元数据文件，它包含指向保存点的所有文件的指针(路径)，这些文件存储在所选的分布式文件系统或数据存储中。</li>
+</ol>
+
+
+<p>请阅读我们之前的<a href="https://www.ververica.com/blog/turning-back-time-savepoints">博客文章</a>，了解如何在流应用程序中启用保存点的详细步骤。</p>
+
+<p>上面关于保存点的所有内容听起来与我们在前面的一篇文章中解释的Apache Flink中的检查点非常相似。检查点是Apache Flink用于从故障中恢复的内部机制，包括应用程序状态的副本和输入的读取位置。在失败的情况下，Flink通过从检查点加载应用程序状态并继续从恢复的读取位置恢复应用程序，就像什么都没有发生一样。</p>
+
+<h1>Apache Flink中保存点和检查点之间的3个差异</h1>
+
+<p>检查点和保存点是Apache Flink作为流处理框架非常独特的两个特性。保存点和检查点在它们的实现中可能看起来很相似，但是，这两个特性在以下3个方面有所不同:</p>
+
+<ol>
+<li>目的:从概念上讲，Flink的保存点不同于检查点，就像备份不同于传统数据库系统中的恢复日志一样。检查点的主要目标是充当Apache Flink中的恢复机制，确保一个容错处理框架能够从潜在的作业失败中恢复。相反，Savepoints的主要目标是作为在用户手动备份和恢复活动之后重新启动、继续或重新打开暂停的应用程序的方式。</li>
+<li>实现:检查点和保存点的实现是不同的。检查点被设计成轻量级和快速的。例如，使用RocksDB状态后端的增量检查点使用RocksDB的内部格式，而不是Flink的本机格式。这用于加快RocksDB的检查点进程，使其成为更轻量级检查点机制的第一个实例。相反，保存点的设计目的是更加关注数据的可移植性，并支持对作业所做的任何更改，这些更改会使生成和恢复保存点的成本稍微高一些。</li>
+<li>生命周期:检查点本质上是自动的、周期性的。它们由Flink自动地、定期地创建和删除，不需要任何用户交互，以确保在意外的作业失败时能够完全恢复。相反，保存点是由用户手动拥有和管理的(即它们是计划、创建和删除的)。</li>
+</ol>
+
+
+<p><img src="http://untitled-life.github.io/images/post/differences-between-savepoints-and-checkpoints-in-flink.jpeg" alt="differences-between-savepoints-and-checkpoints-in-flink" /></p>
+
+<h1>什么时候在流应用程序中使用保存点?</h1>
+
+<p>尽管流处理应用程序处理连续生成的数据(数据“在动”)，但是在某些情况下，应用程序可能需要重新处理以前处理过的数据。Apache Flink中的保存点允许您在以下情况下这样做:</p>
+
+<ol>
+<li>部署流应用程序的更新版本，包括新特性、bug修复或更好的机器学习模型。</li>
+<li>为应用程序引入A/B测试，使用相同的源数据流测试程序的不同版本，在不牺牲先前状态的情况下从相同的时间点开始测试。</li>
+<li>在需要更多资源的情况下重新调整应用程序。</li>
+<li>将流应用程序迁移到新的Apache Flink版本，或者将应用程序升级到不同的集群。</li>
+</ol>
+
+
+<h1>结论</h1>
+
+<p>Apache Flink检查站和保存点是两个不同的特性,适用于不同的需求,以确保一致性、容错和确保应用程序状态保存在意想不到的工作失败(检查点)以及在升级的情况下,bug修复、迁移或A / B测试(使用保存点)。这两个特性结合在一起，可以在不同的实例中确保应用程序的状态在不同的场景和环境中保持不变。<p class='post-footer'>
+            显示信息
+            <a href='http://untitled-life.github.io/blog/2020/01/10/differences-between-savepoints-and-checkpoints-in-flink/'><a href="http://untitled-life.github.io/blog/2020/01/10/differences-between-savepoints-and-checkpoints-in-flink/">http://untitled-life.github.io/blog/2020/01/10/differences-between-savepoints-and-checkpoints-in-flink/</a></a><br/>
+            written by <a href='http://untitled-life.github.io'>Mike Cao</a>
+            &nbsp;posted at <a href='http://untitled-life.github.io'><a href="http://untitled-life.github.io">http://untitled-life.github.io</a></a>
+            </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring Transaction Propagation]]></title>
@@ -23,7 +85,9 @@
 <!-- more -->
 
 
-<p><img src="http://untitled-life.github.io/files/Spring_Transaction_Propagation.pdf" alt="Spring Transaction Propagation" /></p>
+<h2>Spring Transaction Propagation</h2>
+
+<p><a href="https://pan.baidu.com/s/1vQe0su7bUHBWprMjY36KpQ">Spring Transaction Propagation(提取码: v7w3)</a></p>
 
 <p class='post-footer'>
             显示信息
@@ -1894,243 +1958,6 @@ page## 页(Page)
             &nbsp;posted at <a href='http://untitled-life.github.io'>http://untitled-life.github.io</a>
             </p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Wide vs Narrow Dependencies]]></title>
-    <link href="http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies/"/>
-    <updated>2018-12-27T17:41:52+08:00</updated>
-    <id>http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies</id>
-    <content type="html"><![CDATA[<p>太疼的伤口，你不敢去触碰；太深的忧伤，你不敢去安慰；太残酷的残酷，有时候，你不敢去注视。 &ndash;龙应台 《目送》</p>
-
-<!-- more -->
-
-
-<p>In this session, we are going to focus on wide versus narrow dependencies, which dictate relationships between RDDs in graphs of computation, which we&rsquo;ll see has a lot to do with shuffling.</p>
-
-<p>So far, we have seen that some transformations significantly more expensive (latency) than others.</p>
-
-<p>In this session we will:</p>
-
-<ul>
-<li>look at how RDD&rsquo;s are represented</li>
-<li>dive into how and when Spark decides it must shuffle data</li>
-<li>see how these dependencies make fault tolerance possible</li>
-</ul>
-
-
-<h2>Lineages</h2>
-
-<p>Computations on RDDs are represented as a lineage graph, a DAG representing the computations done on the RDD. This representation/DAG is what Spark analyzes to do optimizations. Because of this, for a particular operation, it is possible to step back and figure out how a result of a computation is derived from a particular point.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">val</span> <span class="n">rdd</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="o">(...)</span>
-</span><span class='line'><span class="k">val</span> <span class="n">filtered</span> <span class="k">=</span> <span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="o">(...).</span><span class="n">filter</span><span class="o">(...).</span><span class="n">persist</span><span class="o">()</span>
-</span><span class='line'><span class="k">val</span> <span class="n">count</span> <span class="k">=</span> <span class="n">filtered</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
-</span><span class='line'><span class="k">val</span> <span class="n">reduced</span> <span class="k">=</span> <span class="n">filtered</span><span class="o">.</span><span class="n">reduce</span><span class="o">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://untitled-life.github.io/images/post/lineage_graph.png" alt="lineage_graph" /></p>
-
-<h2>How RDDs are represented</h2>
-
-<p>RDDs are made up of 4 parts:</p>
-
-<ul>
-<li>Partitions: Atomic pieces of the dataset. One or many per compute node.</li>
-<li>Dependencies: Models relationship between this RDD and its partitions with the RDD(s) it was derived from. (Note that the dependencies maybe modeled per partition as shown below).</li>
-<li>A function for computing the dataset based on its parent RDDs.</li>
-<li>Metadata about it partitioning scheme and data placement.</li>
-</ul>
-
-
-<p>/Users/caolei/IdeaProjects/untitled-life/source/images/post/.png</p>
-
-<p><img src="http://untitled-life.github.io/images/post/rdd_anatomy_1.png" alt="rdd_anatomy_1" /></p>
-
-<p><img src="http://untitled-life.github.io/images/post/rdd_anatomy_2.png" alt="rdd_anatomy_2" /></p>
-
-<h2>RDD Dependencies and Shuffles</h2>
-
-<p>Previously we saw the Rule of thumb: a shuffle can occur when the resulting RDD depends on other elements from the same RDD or another RDD.</p>
-
-<p><strong>In fact, RDD dependencies encode when data must move across network</strong>. Thus they tell us when data is going to be shuffled.</p>
-
-<p>Transformations cause shuffles, and can have 2 kinds of dependencies:
-1. Narrow dependencies: Each partition of the parent RDD is used by at most one partition of the child RDD.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>[parent RDD partition] ---&gt; [child RDD partition]
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Fast</strong>! No shuffle necessary. Optimizations like pipelining possible. Thus transformations which have narrow dependencies are fast.</p>
-
-<ol>
-<li>Wide dependencies: Each partition of the parent RDD may be used by multiple child partitions</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>                   ---&gt; [child RDD partition 1]
-</span><span class='line'>[parent RDD partition] ---&gt; [child RDD partition 2]
-</span><span class='line'>                   ---&gt; [child RDD partition 3]
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Slow</strong>! Shuffle necessary for all or some data over the network. Thus transformations which have narrow dependencies are slow.</p>
-
-<h3>Visual: Narrow dependencies Vs. Wide dependencies</h3>
-
-<p><img src="http://untitled-life.github.io/images/post/narrow_vs_wide_dependencies.png" alt="narrow_vs_wide_dependencies" /></p>
-
-<h3>Visual: Example</h3>
-
-<p>Assume that we have a following DAG:</p>
-
-<p><img src="http://untitled-life.github.io/images/post/visual_dag.png" alt="visual_dag" /></p>
-
-<p>What do the dependencies look like? Which are wide and which are narrow?</p>
-
-<p><img src="http://untitled-life.github.io/images/post/visual_dag_resolved.png" alt="visual_dag_resolved" /></p>
-
-<p>The B to G join is narrow because groupByKey already partitions the keys and places them appropriately in B after shuffling.</p>
-
-<p>Thus operations like join can <strong>sometimes be narrow and sometimes be wide.</strong></p>
-
-<p><strong>Transformations with (usually) Narrow dependencies:</strong>
-- map
-- mapValues
-- flatMap
-- filter
-- mapPartitions
-- mapPartitionsWithIndex</p>
-
-<p><strong>Transformations with (usually) Wide dependencies: (might cause a shuffle)</strong>
-- cogroup
-- groupWith
-- join
-- leftOuterJoin
-- rightOuterJoin
-- groupByKey
-- reduceByKey
-- combineByKey
-- distinct
-- intersection
-- repartition
-- coalesce</p>
-
-<p><strong>This list usually holds, but as seen above, in case of join, depending on the use case, the dependency of an operation may be different from the above lists</strong></p>
-
-<h3>How can I find out?</h3>
-
-<p>dependencies method on RDDs: returns a sequence of Dependency objects, which are actually the dependencies used by Spark&rsquo;s scheduler to know how this RDD depends on RDDs.</p>
-
-<p>The sorts of dependency objects that this method may return include:</p>
-
-<ul>
-<li><p>Narrow dependency objects</p>
-
-<ul>
-<li>OneToOneDependency</li>
-<li>PruneDependency</li>
-<li>RangeDependency</li>
-</ul>
-</li>
-<li><p>Wide dependency objects</p>
-
-<ul>
-<li>ShuffleDependency</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Another method toDebugString prints out a visualization of the RDD lineage along with other information relevant to scheduling. For example, indentations in the output separate groups of narrow transformations that may be pipelined together with wide transformations that require shuffles. These groupings are called <strong>stages.</strong></p>
-
-<h5>Example</h5>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">val</span> <span class="n">wordsRDD</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="n">largeList</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="cm">/* dependencies */</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">val</span> <span class="n">pairs</span> <span class="k">=</span> <span class="n">wordsRdd</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">c</span><span class="o">=&gt;(</span><span class="n">c</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span>
-</span><span class='line'>                    <span class="o">.</span><span class="n">groupByKey</span>
-</span><span class='line'>                    <span class="o">.</span><span class="n">dependencies</span>          <span class="c1">// &lt;-------------</span>
-</span><span class='line'><span class="c1">// pairs: Seq[org.apache.spark.Dependency[_]] = List(org.apache.spark.ShuffleDependency@4294a23d)</span>
-</span><span class='line'>
-</span><span class='line'><span class="cm">/* toDebugString */</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">val</span> <span class="n">pairs</span> <span class="k">=</span> <span class="n">wordsRdd</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">c</span><span class="o">=&gt;(</span><span class="n">c</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span>
-</span><span class='line'>                    <span class="o">.</span><span class="n">groupByKey</span>
-</span><span class='line'>                    <span class="o">.</span><span class="n">toDebugString</span>         <span class="c1">// &lt;-------------</span>
-</span><span class='line'><span class="c1">// pairs: String =</span>
-</span><span class='line'><span class="c1">// (8) ShuffledRDD[219] at groupByKey at &lt;console&gt;:38 []</span>
-</span><span class='line'><span class="c1">//  +-(8) MapPartitionsRDD[218] at map at &lt;console&gt;:37 []</span>
-</span><span class='line'><span class="c1">//     | ParallelCollectionRDD[217] at parallelize at &lt;console&gt;:36 []</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Lineages and Fault Tolerance</h2>
-
-<p><strong>Lineages are the key to fault tolerance in Spark</strong></p>
-
-<p>Ideas from <strong>functional programming</strong> enable fault tolerance in Spark:</p>
-
-<ul>
-<li>RDDs are immutable</li>
-<li>We use higher-order-functions like map,flatMap,filter to do functional transformations on this immutable data</li>
-<li>A function for computing the dataset based on its parent RDDs also is part of an RDD&rsquo;s representation.</li>
-</ul>
-
-
-<p>We just need to keep the information required by these 3 properties.</p>
-
-<p>Along with keeping track of the dependency information between partitions as well, these 3 properties allow us to: <strong>Recover from failures by recomputing lost partitions from lineage graphs</strong>, as it is easy to back track in a lineage graph.</p>
-
-<p>Thus we get Fault Tolerance without having to write the RDDs/Data to the disk! The whole data can be re-derived using the above information.</p>
-
-<h3>Visual Example</h3>
-
-<p>Lets assume one of our partitions from our previous example fails:</p>
-
-<p><img src="http://untitled-life.github.io/images/post/fault_tol_1.png" alt="fault_tol_1" /></p>
-
-<p>We only have to recompute the data shown below to get back on track:</p>
-
-<p><img src="http://untitled-life.github.io/images/post/fault_tol_2.png" alt="fault_tol_2" /></p>
-
-<p>Recomputing missing partitions is <strong>fast for narrow</strong> but <strong>slow for wide</strong> dependencies. So if above, a partition in G would have failed, it would have taken us more time to recompute that partition. So losing partitions that were derived from a transformation with wide dependencies, can be much slower.<p class='post-footer'>
-            显示信息
-            <a href='http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies/'><a href="http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies/">http://untitled-life.github.io/blog/2018/12/27/wide-vs-narrow-dependencies/</a></a><br/>
-            written by <a href='http://untitled-life.github.io'>Mike Cao</a>
-            &nbsp;posted at <a href='http://untitled-life.github.io'><a href="http://untitled-life.github.io">http://untitled-life.github.io</a></a>
-            </p></p>
 ]]></content>
   </entry>
   
