@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Spring | Hackx's Blog]]></title>
+  <link href="http://untitled-life.github.io/blog/categories/spring/atom.xml" rel="self"/>
+  <link href="http://untitled-life.github.io/"/>
+  <updated>2020-01-10T11:12:24+08:00</updated>
+  <id>http://untitled-life.github.io/</id>
+  <author>
+    <name><![CDATA[Mike Cao]]></name>
+    <email><![CDATA[untitled2018life@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Transaction Propagation]]></title>
+    <link href="http://untitled-life.github.io/blog/2020/01/10/spring-transaction-propagation/"/>
+    <updated>2020-01-10T10:51:43+08:00</updated>
+    <id>http://untitled-life.github.io/blog/2020/01/10/spring-transaction-propagation</id>
+    <content type="html"><![CDATA[<blockquote><p>贫穷的记忆，在事过境迁之后，像黑白片一样，可能产生一种烟尘朦胧的美感，转化为辛酸而甜美的回忆。 &ndash;龙应台 《目送》</p></blockquote>
+
+<!-- more -->
+
+
+<p><img src="/files/Spring_Transaction_Propagation.pdf" alt="Spring Transaction Propagation" /></p>
+]]></content>
+  </entry>
+  
+</feed>
